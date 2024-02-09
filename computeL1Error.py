@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 plt.style.use( 'publication.sty' )
 
 import GlobalVariables.Settings as gvS
+gvS.PlotDirectory = '../thornadoHydroXCFC_MethodsPaper_Data/'
 
 from gaussxw import gaussxw
 
@@ -98,7 +99,7 @@ with open( filename, 'w' ) as f:
     f.write( '  \colhead{$\\NK$}            &\n' )
     f.write( '  \colhead{Mesh}             &\n' )
     f.write( '  \colhead{Flux Corrections} &\n' )
-    f.write( '  \colhead{$L_{1}$-error}    }\n' )
+    f.write( '  \colhead{$E_{\\rho}$}    }\n' )
     f.write( '  \startdata\n' )
 
 for i in range( len( nn ) ):
@@ -150,7 +151,7 @@ for i in range( len( nn ) ):
     with open( filename, 'a' ) as f:
         for i in range( len( L1arr ) ):
             exponent = np.floor( np.log10( np.abs( L1arr[i] ) ) )
-            f.write( '{:} & {:} & {:} & {:} & ${:.2f}\\times10^{{{:}}}$ \\\\ \n' \
+            f.write( '{:} & {:} & {:} & {:} & ${:.2f}\\times10^{{{:}}}$ \\\\\n' \
                      .format( narr[i], nxarr[i], garr[i], fcarr[i], \
                               L1arr[i] / 10**( exponent ), np.int64( exponent ) ) )
 
@@ -165,8 +166,8 @@ with open( filename, 'a' ) as f:
     f.write( 'or multi-level mesh,\n' )
     f.write( 'the fourth column specifies whether or not a multi-level mesh simulation\n' )
     f.write( 'applied flux corrections,\n' )
-    f.write( 'and the fifth column denotes the $L_{1}$-error as defined in\n' )
-    f.write( '\myeqref{eq.L1}.}\n' )
+    f.write( 'and the fifth column denotes the error as defined in\n' )
+    f.write( '\myeqref{eq.Error}.}\n' )
     f.write( '\end{deluxetable}\n' )
 
 import os

@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 plt.style.use( 'publication.sty' )
 
 import GlobalVariables.Settings as gvS
+gvS.PlotDirectory = '../thornadoHydroXCFC_MethodsPaper_Data/'
 
 nprocs, wtimes \
   = np.loadtxt( gvS.PlotDirectory + 'StrongScaling/walltimes.dat', \
@@ -18,11 +19,11 @@ fig, ax = plt.subplots( 1, 1, figsize = (8,2) )
 
 ax.grid( which = 'both' )
 
-ax.plot( nprocs, wtimes            , '.', label = 'Acutal Scaling' )
-ax.plot( nprocs, 0.8 * 1.0 / nprocs, '-', label = 'Ideal Scaling'  )
+ax.plot( nprocs, wtimes      , '.', label = 'Acutal Scaling' )
+ax.plot( nprocs, 1.0 / nprocs, '-', label = 'Ideal Scaling'  )
 
 for i in range( len( nDOF ) ):
-    ax.text( 0.9 * nprocs[i], 2e-2, '{:.0e}'.format( nDOF[i] ) )
+    ax.text( 0.9 * nprocs[i], 1e-2, '{:.0e}'.format( nDOF[i] ) )
 
 ax.legend()
 

@@ -5,12 +5,13 @@ import matplotlib.pyplot as plt
 plt.style.use( 'publication.sty' )
 
 import GlobalVariables.Settings as gvS
+gvS.PlotDirectory = '../thornadoHydroXCFC_MethodsPaper_Data/'
 
 nprocs, wtimes \
   = np.loadtxt( gvS.PlotDirectory + 'WeakScaling/walltimes.dat', \
                 unpack = True )
 
-wtimes /= 20. # Number of cycles
+wtimes /= 10. # Number of cycles
 
 fig, ax = plt.subplots( 1, 1, figsize = (8,2) )
 
@@ -22,7 +23,7 @@ ax.set_xscale( 'log' )
 #ax.set_yscale( 'log' )
 
 ax.set_xlabel( 'nProc' )
-ax.set_ylabel( r'$\mathrm{Walltime\ per\ timestep\ [s]}$' )
+ax.set_ylabel( r'$\mathrm{Walltime\ per\ timestep\ [s]}$', fontsize = 10 )
 
 #plt.show()
 
