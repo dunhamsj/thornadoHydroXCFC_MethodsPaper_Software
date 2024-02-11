@@ -8,53 +8,57 @@ plt.style.use( '../publication.sty' )
 import GlobalVariables.Settings as gvS
 gvS.PlotDirectory = '../../thornadoHydroXCFC_MethodsPaper_Data/'
 
-tb = 241.7
+suffix = [ '_AMR_dr0.25km', '_AMR_dr0.50km', '_AMR_dr1.00km', '_Uni_dr0.50km', '_Uni_dr1.00km' ]
+suffix = [ '_AMR_dr0.25km', '_AMR_dr1.00km', '_Uni_dr0.50km', '_Uni_dr1.00km' ]
 
-suffix = [ '_Uni_dr0.50km', '_AMR_dr0.50km' ]
+N = len( suffix )
 
-fig, axs = plt.subplots( 2, 1 )
+tArr   = np.empty( N, object )
+RshArr = np.empty( N, object )
+VshArr = np.empty( N, object )
 
-xSh = [ 1.0e2, 5.0e2, 1.0e3, 2.0e3, 4.0e3, 7.5e3 ]
-for s in range( len( suffix ) ):
+for s in range( N ):
 
-    filename  = 'ShockRadiusVsTime{:}.dat'.format( suffix[s] )
+    filename  = 'processedData/ShockRadiusVsTime{:}.dat'.format( suffix[s] )
     t, ss, Rsh = np.loadtxt( filename )
 
-    ind = np.where( ( t < 267 ) )[0]
-    ind2 = np.where( ( t[:-1] < 267 ) )[0]
-
-    t   = np.copy( t  [ind] )
-    Rsh = np.copy( Rsh[ind] )
-
     Vsh = []
-
-    ii = 1
-    t2  = []
-    Vsh = []
-    for i in range( ii, Rsh.shape[0]-ii ):
-      v = ( Rsh[i+ii] - Rsh[i] ) / ( ii * ( t[i+ii] - t[i] ) )
-      t2.append( t[i] )
+    iOS = 2
+    for i in range( iOS ):
+        Vsh.append( 1.0 )
+    for i in range( iOS, Rsh.shape[0]-iOS ):
+      v = Rsh[i+iOS] - Rsh[i]
       Vsh.append( v )
+    for i in range( iOS ):
+        Vsh.append( 1.0 )
 
-    axs[0].plot( t[ind], Rsh[ind], label = suffix[s][1:] )
-    axs[1].plot( t2, Vsh, '.' )
+    VshArr[s] = np.array( Vsh )
 
-for i in xSh:
-    axs[0].axhline( i, color = 'k' )
+    tArr  [s] = t
+    RshArr[s] = Rsh
 
-axs[0].legend()
+fig, ax = plt.subplots( 2, 1 )
 
-fig.supxlabel( 't-tb [ms]' )
+for s in range( N ):
 
-axs[0].set_ylabel( 'Rsh [km]' )
+    ind = np.where( VshArr[s] < -1.0e3 )[0][0]
+    ind = -1
+    ax[0].plot( tArr[s][:ind], RshArr[s][:ind], '.', label = suffix[s][1:] )
+    ax[1].plot( tArr[s], VshArr[s], '.' )
 
-plot = True
+ax[0].legend( loc = 1 )
+fig.supxlabel( r'$t-t_{\mathrm{b}}\ \left[\mathrm{ms}\right]$' )
+ax[0].set_ylabel( r'$R_{\mathrm{sh}}\left(t\right)\ \left[\mathrm{km}\right]$' )
+ax[1].set_ylabel( r'$R_{\mathrm{sh}}\left(t+\Delta t\right)-R_{\mathrm{sh}}\left(t\right)\ \left[\mathrm{km}\right]$' )
+
+plot = False
 if ( plot ) :
     plt.show()
 else:
     figName \
       = '/home/kkadoogan/Work/thornadoHydroXCFC_MethodsPaper/\
     Figures/fig.ShockTrajectory_dr0.50km.pdf'
+    figName = '/home/kkadoogan/fig.png'
     plt.savefig( figName, dpi = 300 )
     print( '\n  Saved {:}'.format( figName ) )
 
