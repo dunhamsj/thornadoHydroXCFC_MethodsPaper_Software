@@ -9,7 +9,7 @@ import GlobalVariables.Settings as gvS
 gvS.PlotDirectory = '../../thornadoHydroXCFC_MethodsPaper_Data/'
 
 suffix = [ '_AMR_dr0.25km', '_AMR_dr0.50km', '_AMR_dr1.00km', '_Uni_dr0.50km', '_Uni_dr1.00km' ]
-suffix = [ '_AMR_dr0.25km', '_AMR_dr1.00km', '_Uni_dr0.50km', '_Uni_dr1.00km' ]
+#suffix = [ '_AMR_dr0.50km', '_AMR_dr1.00km', '_Uni_dr0.50km', '_Uni_dr1.00km' ]
 
 N = len( suffix )
 
@@ -37,19 +37,32 @@ for s in range( N ):
     tArr  [s] = t
     RshArr[s] = Rsh
 
-fig, ax = plt.subplots( 2, 1 )
+fig, ax = plt.subplots( 1, 1 )
 
+# colorblind-friendly palette: https://gist.github.com/thriveth/8560036
+color = ['#377eb8', '#ff7f00', '#4daf4a', \
+         '#f781bf', '#a65628', '#984ea3', \
+         '#999999', '#e41a1c', '#dede00']
+
+c = [ color[0], color[1], color[0], color[1] ]
 for s in range( N ):
 
-    ind = np.where( VshArr[s] < -1.0e3 )[0][0]
-    ind = -1
-    ax[0].plot( tArr[s][:ind], RshArr[s][:ind], '.', label = suffix[s][1:] )
-    ax[1].plot( tArr[s], VshArr[s], '.' )
+    try:
+        ind = np.where( VshArr[s] < -1.0e3 )[0][0]
+    except:
+        ind = -1
+    print( suffix[s][1:], ind, tArr[s][ind] )
 
-ax[0].legend( loc = 1 )
-fig.supxlabel( r'$t-t_{\mathrm{b}}\ \left[\mathrm{ms}\right]$' )
-ax[0].set_ylabel( r'$R_{\mathrm{sh}}\left(t\right)\ \left[\mathrm{km}\right]$' )
-ax[1].set_ylabel( r'$R_{\mathrm{sh}}\left(t+\Delta t\right)-R_{\mathrm{sh}}\left(t\right)\ \left[\mathrm{km}\right]$' )
+    if ( 'AMR' in suffix[s] ) :
+        ls = '-'
+    else:
+        ls = '--'
+
+    ax.plot( tArr[s][:ind], RshArr[s][:ind], c = c[s], ls = ls, label = suffix[s][1:] )
+
+ax.legend( loc = 2 )
+ax.set_xlabel( r'$t-t_{\mathrm{b}}\ \left[\mathrm{ms}\right]$' )
+ax.set_ylabel( r'$R_{\mathrm{sh}}\ \left[\mathrm{km}\right]$' )
 
 plot = False
 if ( plot ) :

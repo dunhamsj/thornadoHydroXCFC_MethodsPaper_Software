@@ -17,13 +17,15 @@ rhoMax  = -np.inf
 tmtbMin = +np.inf
 tmtbMax = -np.inf
 
+indMax = [ 2783, -1, 2290 ]
+tMax   = [ 278.4, 257.4, 229.10 ]
 for s in range( len( suffix ) ):
 
     filename  = 'processedData/CentralValues{:}.dat'.format( suffix[s] )
     tmtb, DC, TC, YC, SC = np.loadtxt( filename )
 
     ind0 = np.where( ( tmtb < 0.0 ) )[0]
-    ind1 = np.where( ( tmtb > 0.0 ) )[0]
+    ind1 = np.where( ( tmtb > 0.0 ) & ( tmtb < tMax[s] ) )[0]
 
     rhoMin  = min( rhoMin , DC  [ind0].min() )
     rhoMax  = max( rhoMax , DC  [ind0].max() )
@@ -40,10 +42,10 @@ for s in range( len( suffix ) ):
     yY = ( YC[ind1] - YC[ind1[0]] ) / YC[ind0[0]]
     axs[1,1].plot( tmtb[ind1], yY / 1.0e-5 )
 
-axs[0,0].set_xlim( 1.0e9, rhoMax )
-axs[1,0].set_xlim( 1.0e9, rhoMax )
-axs[0,1].set_xlim( 0.0, tmtbMax )
-axs[1,1].set_xlim( 0.0, tmtbMax )
+axs[0,0].set_xlim( 5.0e9, rhoMax )
+axs[1,0].set_xlim( 5.0e9, rhoMax )
+axs[0,1].set_xlim( 0.0, tmtbMax+10.0 )
+axs[1,1].set_xlim( 0.0, tmtbMax+10.0 )
 
 #axs[0,0].set_ylabel( r'$S_{\mathrm{c}}/\mathrm{baryon}\ \left[k_{\mathrm{B}}\right]$' )
 #axs[1,0].set_ylabel( r'$Y_{\mathrm{e,c}}\ \left[\right]$' )
