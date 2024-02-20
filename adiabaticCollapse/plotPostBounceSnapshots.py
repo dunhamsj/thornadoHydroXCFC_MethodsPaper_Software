@@ -3,6 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 plt.style.use( 'publication.sty' )
+from matplotlib import ticker as mticker
 
 import GlobalVariables.Settings as gvS
 gvS.PlotDirectory = '../../thornadoHydroXCFC_MethodsPaper_Data/'
@@ -109,6 +110,8 @@ for i in range( axs.shape[0] ):
         axs[i,j].set_xscale( 'log' )
         axs[i,j].grid( axis = 'x')#, which = 'both' )
         axs[i,j].set_xticks( xticks )
+        axs[i,j].xaxis.set_minor_locator \
+          ( mticker.LogLocator( numticks = 999, subs = 'auto' ) )
 
 axs[0,0].set_xticklabels( '' )
 axs[0,1].set_xticklabels( '' )

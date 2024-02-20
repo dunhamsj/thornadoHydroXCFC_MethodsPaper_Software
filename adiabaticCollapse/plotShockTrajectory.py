@@ -44,7 +44,7 @@ color = ['#377eb8', '#ff7f00', '#4daf4a', \
          '#f781bf', '#a65628', '#984ea3', \
          '#999999', '#e41a1c', '#dede00']
 
-c = [ color[0], color[1], color[0], color[1] ]
+c = [ color[2], color[0], color[1], color[0], color[1] ]
 for s in range( N ):
 
     try:
@@ -58,8 +58,9 @@ for s in range( N ):
     else:
         ls = '--'
 
-    ax.plot( tArr[s][:ind], RshArr[s][:ind], c = c[s], ls = ls, label = suffix[s][1:] )
+#    ax.plot( tArr[s][:ind], RshArr[s][:ind], c = c[s], ls = ls, label = suffix[s][1:] )
 
+exit()
 ax.legend( loc = 2 )
 ax.set_xlabel( r'$t-t_{\mathrm{b}}\ \left[\mathrm{ms}\right]$' )
 ax.set_ylabel( r'$R_{\mathrm{sh}}\ \left[\mathrm{km}\right]$' )
@@ -70,8 +71,8 @@ if ( plot ) :
 else:
     figName \
       = '/home/kkadoogan/Work/thornadoHydroXCFC_MethodsPaper/\
-    Figures/fig.ShockTrajectory_dr0.50km.pdf'
-    figName = '/home/kkadoogan/fig.png'
+    Figures/fig.ShockTrajectory.pdf'
+    figName = '/home/kkadoogan/fig.ShockTrajectory.png'
     plt.savefig( figName, dpi = 300 )
     print( '\n  Saved {:}'.format( figName ) )
 

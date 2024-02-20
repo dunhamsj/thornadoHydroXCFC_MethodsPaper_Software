@@ -13,9 +13,13 @@ from Utilities.Files import GetFileNumberArray
 tb025 = 2.416e+02
 tb050 = 2.416e+02
 tb100 = 2.416e+02
-
 tb     = [ tb025          , tb050          , tb100           ]
 suffix = [ '_AMR_dr0.25km', '_AMR_dr0.50km', '_AMR_dr1.00km' ]
+
+tb050 =  2.417e+02
+tb100 =  2.417e+02
+tb     = [ tb050          , tb100 ]
+suffix = [ '_Uni_dr0.50km', '_Uni_dr1.00km' ]
 
 Fields = [ 'PF_D', 'AF_T', 'AF_Ye', 'AF_S' ]
 

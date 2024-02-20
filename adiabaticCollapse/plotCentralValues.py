@@ -4,6 +4,7 @@ from datetime import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 plt.style.use( '../publication.sty' )
+from matplotlib import ticker as mticker
 
 import GlobalVariables.Settings as gvS
 gvS.PlotDirectory = '../../thornadoHydroXCFC_MethodsPaper_Data/'
@@ -17,8 +18,10 @@ rhoMax  = -np.inf
 tmtbMin = +np.inf
 tmtbMax = -np.inf
 
-indMax = [ 2783, -1, 2290 ]
-tMax   = [ 278.4, 257.4, 229.10 ]
+# Found by running plotShockTrajectory.py
+indMax = [ 2783, 2609, 2290 ]
+tMax   = [ 278.4, 261.0, 229.10 ]
+
 for s in range( len( suffix ) ):
 
     filename  = 'processedData/CentralValues{:}.dat'.format( suffix[s] )
@@ -66,8 +69,18 @@ axs[0,1].set_ylim( SLim )
 axs[1,0].set_ylim( YeLim )
 axs[1,1].set_ylim( YeLim )
 
+x0ticks = [ 1.0e10, 1.0e11, 1.0e12, 1.0e13, 1.0e14 ]
+for i in range( 2 ):
+    axs[i,0].set_xticks( x0ticks )
+    axs[i,0].xaxis.set_minor_locator \
+      ( mticker.LogLocator( numticks = 999, subs = 'auto' ) )
+
 axs[0,0].set_xticklabels( '' )
 axs[0,1].set_xticklabels( '' )
+
+x1ticks = [ 50, 100, 150, 200, 250 ]
+for i in range( 2 ):
+    axs[i,1].set_xticks( x1ticks )
 
 axs[0,1].set_yticklabels( '' )
 axs[1,1].set_yticklabels( '' )
@@ -85,8 +98,8 @@ if ( plot ) :
 else:
     figName \
       = '/home/kkadoogan/Work/thornadoHydroXCFC_MethodsPaper/\
-    Figures/fig.CentralValues.pdf'
-    figName = '/home/kkadoogan/fig.CentralValues.png'
+Figures/fig.CentralValues.pdf'
+#    figName = '/home/kkadoogan/fig.CentralValues.png'
     plt.savefig( figName, dpi = 300 )
     print( '\n  Saved {:}'.format( figName ) )
 

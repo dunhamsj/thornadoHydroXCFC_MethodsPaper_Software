@@ -3,6 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 plt.style.use( 'publication.sty' )
+from matplotlib import ticker as mticker
 
 import GlobalVariables.Settings as gvS
 gvS.PlotDirectory = '../../thornadoHydroXCFC_MethodsPaper_Data/'
@@ -103,15 +104,6 @@ axs[0,0].set_ylabel( r'$\rho\ \left[\mathrm{g}\,\mathrm{cm}^{-3}\right]$' )
 axs[0,1].set_ylabel( r'$v/c$' )
 axs[1,1].set_ylabel( r'$T\ \left[\mathrm{K}\right]$' )
 
-axs[0,0].xaxis.set_tick_params \
-  ( which = 'both', top = True, left = True , bottom = True, right = False )
-axs[0,1].xaxis.set_tick_params \
-  ( which = 'both', top = True, left = False, bottom = True, right = True  )
-axs[1,0].xaxis.set_tick_params \
-  ( which = 'both', top = True, left = True , bottom = True, right = False )
-axs[1,1].xaxis.set_tick_params \
-  ( which = 'both', top = True, left = False, bottom = True, right = True  )
-
 axs[0,1].yaxis.set_label_position( 'right' )
 axs[1,1].yaxis.set_label_position( 'right' )
 axs[0,0].yaxis.tick_left()
@@ -126,8 +118,10 @@ for i in range( axs.shape[0] ):
     for j in range( axs.shape[1] ):
         axs[i,j].set_xlim( 0.0 + 0.25 * dX1_u, 8.0e3 + 2.0e3 )
         axs[i,j].set_xscale( 'log' )
-        axs[i,j].grid( axis = 'x')#, which = 'both' )
+        axs[i,j].grid( axis = 'x', which = 'major' )
         axs[i,j].set_xticks( xticks )
+        axs[i,j].xaxis.set_minor_locator \
+          ( mticker.LogLocator( numticks = 999, subs = 'auto' ) )
 
 axs[0,0].set_xticklabels( '' )
 axs[0,1].set_xticklabels( '' )

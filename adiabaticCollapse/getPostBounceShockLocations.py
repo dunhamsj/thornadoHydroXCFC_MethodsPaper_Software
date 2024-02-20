@@ -153,10 +153,10 @@ if __name__ == '__main__':
 
     # tb copied from processedData/DensityDecades<suffix>.dat
 #    suffix = '_AMR_dr0.25km'; tb = 2.416e2
-#    suffix = '_AMR_dr0.50km'; tb = 2.416e2
+    suffix = '_AMR_dr0.50km'; tb = 2.416e2
 #    suffix = '_AMR_dr1.00km'; tb = 2.416e2
 #    suffix = '_Uni_dr0.50km'; tb = 2.417e2
-    suffix = '_Uni_dr1.00km'; tb = 2.417e2
+#    suffix = '_Uni_dr1.00km'; tb = 2.417e2
 
     plotfileDirectory \
       = gvS.PlotDirectory \

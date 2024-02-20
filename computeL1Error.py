@@ -19,6 +19,15 @@ def Lagrange( x, xq, i ):
             L *= ( x - xq[j] ) / ( xq[i] - xq[j] )
     return L
 
+def rho_h( x, xq, rhoq ):
+    rho = 0.0
+    for i in range( xq.shape[0] ):
+        rho += rhoq[i] * Lagrange( x, xq, i )
+    return rho
+
+def rhoExact( x ):
+    return 1.0 + 0.1 * np.sin( 2.0 * np.pi * x )
+
 def ComputeL1( pathToData, fileNameRoot, nN, nXC, grid, fc ):
 
     N = np.int64( nN )
@@ -38,9 +47,9 @@ def ComputeL1( pathToData, fileNameRoot, nN, nXC, grid, fc ):
     dX1    = np.array( dataI[:,i]    , dtype = np.float64 ); i += 1
     dX2    = np.array( dataI[:,i]    , dtype = np.float64 ); i += 1
     dX3    = np.array( dataI[:,i]    , dtype = np.float64 ); i += 1
-    X1C    = np.array( dataI[:,i:i+N], dtype = np.float64 ); i += N
-    X2C    = np.array( dataI[:,i:i+1], dtype = np.float64 ); i += 1
-    X3C    = np.array( dataI[:,i:i+1], dtype = np.float64 ); i += 1
+    X1n    = np.array( dataI[:,i:i+N], dtype = np.float64 ); i += N
+    X2n    = np.array( dataI[:,i:i+1], dtype = np.float64 ); i += 1
+    X3n    = np.array( dataI[:,i:i+1], dtype = np.float64 ); i += 1
     dataI  = np.array( dataI[:,i:i+N], dtype = np.float64 )
 
     nX1 = iX1.shape[0]
@@ -57,25 +66,28 @@ def ComputeL1( pathToData, fileNameRoot, nN, nXC, grid, fc ):
     dX1    = np.array( dataF[:,i]    , dtype = np.float64 ); i += 1
     dX2    = np.array( dataF[:,i]    , dtype = np.float64 ); i += 1
     dX3    = np.array( dataF[:,i]    , dtype = np.float64 ); i += 1
-    X1C    = np.array( dataF[:,i:i+N], dtype = np.float64 ); i += N
-    X2C    = np.array( dataF[:,i:i+1], dtype = np.float64 ); i += 1
-    X3C    = np.array( dataF[:,i:i+1], dtype = np.float64 ); i += 1
+    X1n    = np.array( dataF[:,i:i+N], dtype = np.float64 ); i += N
+    X2n    = np.array( dataF[:,i:i+1], dtype = np.float64 ); i += 1
+    X3n    = np.array( dataF[:,i:i+1], dtype = np.float64 ); i += 1
     dataF  = np.array( dataF[:,i:i+N], dtype = np.float64 )
 
     xqN, wqN = gaussxw( N  )
     xqQ, wqQ = gaussxw( nQ )
-    Lq = np.empty( (N,nQ), np.float64 )
-    for i in range( N ):
-        Lq[i] = Lagrange( xqQ, xqN, i )
 
+    xL = 0.0
     Lnum = 0.0
     Lden = 0.0
-    for i in range( nX1 ):
-        uqN_I = dataI[i]
-        uqN_F = dataF[i]
+    for iX1 in range( nX1 ):
+
+        xH = xL + dX1[iX1]
+        xC = 0.5 * ( xL + xH )
+        x = xC + xqQ * dX1[iX1]
+        xL = xH
+
+        uqN_F = dataF[iX1]
         for q in range( nQ ):
-            Lnum += wqQ[q] * np.abs( np.dot( Lq[:,q], ( uqN_F - uqN_I ) ) )
-            Lden += wqQ[q] * np.abs( np.dot( Lq[:,q], uqN_I ) )
+            Lnum += dX1[iX1] * wqQ[q] * np.abs( rho_h( x[q], xqN, uqN_F ) - rhoExact( x[q] ) )
+            Lden += dX1[iX1] * wqQ[q] * np.abs( rhoExact( x[q] ) )
 
     L1 = Lnum / Lden
 
@@ -99,7 +111,7 @@ with open( filename, 'w' ) as f:
     f.write( '  \colhead{$\\NK$}            &\n' )
     f.write( '  \colhead{Mesh}             &\n' )
     f.write( '  \colhead{Flux Corrections} &\n' )
-    f.write( '  \colhead{$E_{\\rho}$}    }\n' )
+    f.write( '  \colhead{$E_{1}\\left[\\rho_{h}\\right]$} }\n' )
     f.write( '  \startdata\n' )
 
 for i in range( len( nn ) ):
@@ -154,6 +166,11 @@ for i in range( len( nn ) ):
             f.write( '{:} & {:} & {:} & {:} & ${:.2f}\\times10^{{{:}}}$ \\\\\n' \
                      .format( narr[i], nxarr[i], garr[i], fcarr[i], \
                               L1arr[i] / 10**( exponent ), np.int64( exponent ) ) )
+
+    plt.loglog( np.array(narr)*np.array(nxarr), L1arr, '.', label = f'nN = {nN}' )
+
+plt.legend()
+plt.show()
 
 with open( filename, 'a' ) as f:
     f.write( '  \enddata\n' )

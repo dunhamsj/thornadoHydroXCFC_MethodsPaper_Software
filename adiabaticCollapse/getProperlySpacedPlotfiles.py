@@ -16,8 +16,8 @@ import GlobalVariables.Settings as gvS
 gvS.PlotDirectory = '../../thornadoHydroXCFC_MethodsPaper_Data/'
 
 #suffix = '_AMR_dr0.25km'
-#suffix = '_AMR_dr0.50km'
-suffix = '_AMR_dr1.00km'
+suffix = '_AMR_dr0.50km'
+#suffix = '_AMR_dr1.00km'
 #suffix = '_Uni_dr0.50km'
 #suffix = '_Uni_dr1.00km'
 

@@ -131,10 +131,10 @@ def getDensityDecades( suffix ):
 if __name__ == '__main__':
 
 #    suffix = '_AMR_dr0.25km'
-#    suffix = '_AMR_dr0.50km'
+    suffix = '_AMR_dr0.50km'
 #    suffix = '_AMR_dr1.00km'
 #    suffix = '_Uni_dr0.50km'
-    suffix = '_Uni_dr1.00km'
+#    suffix = '_Uni_dr1.00km'
 
     getDensityDecades( suffix )
 
