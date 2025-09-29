@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import numpy as np
-from sys import argv
 import matplotlib.pyplot as plt
 plt.style.use( '../publication.sty' )
 
@@ -19,9 +18,9 @@ xlabel = r'$r$'
 
 iSS = -1
 
-field  = [ 'PF_D'   , 'PF_V1']#, 'AF_P' ]
-ylabel = [ r'$\rho / 5000$', r'$v / 0.001$' ]#, r'$p$' ]
-norm   = [ 5.0e3    , 1.0e-3 ]#, 1.0 ]
+field  = [ 'PF_D'          , 'PF_V1'       , 'AF_P' ]
+ylabel = [ r'$\rho / 5000$', r'$v / 0.001$', r'$p / 0.001$' ]
+norm   = [ 5.0e3           , 1.0e-3        , 1.0e-3 ]
 
 xlim = np.array( [ -0.1, 1.1 ] )
 
@@ -68,7 +67,7 @@ data = np.loadtxt( 'spherical_standard_omega0p00_nDetCells{:}_t500.dat' \
                    .format( nDetCells ), skiprows = 2 )
 x     = data[:,1]
 den   = data[:,2]
-press = data[:,3] * ( 4.0 / 3.0 - 1.0 )
+press = data[:,4]
 vel   = data[:,5]
 exact = [ x, den, vel, press ]
 
@@ -94,7 +93,7 @@ if useCustomLimits: ax.set_ylim( vmin, vmax )
 
 ylim = ax.get_ylim()
 
-ax.legend()
+ax.legend( loc = 1 )
 ax.grid()
 
 ax.set_xlim( xlim )
@@ -102,7 +101,7 @@ ax.set_xlim( xlim )
 ax.set_xlabel( xlabel, fontsize = 15 )
 
 ax.text \
-  ( 0.9, 0.75 * ( ylim[1] - ylim[0] ), \
+  ( 0.92, 0.7 * ( ylim[1] - ylim[0] ), \
     r'$t = {:}$'.format( np.int64( time ) ), \
     bbox = dict( facecolor = 'white', edgecolor = 'black', \
                  boxstyle = 'round' ) )
