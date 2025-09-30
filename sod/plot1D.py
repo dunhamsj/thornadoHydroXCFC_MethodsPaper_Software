@@ -64,6 +64,8 @@ for i in range( len( suffix ) ) :
     X1_C, X2_C, X3_C, dX1, dX2, dX3, xL, xH, time \
       = getMesh_1d( plotfileName, 'cartesian', returnTime = True )
 
+    print( 'Number of elements: {:}'.format( X1_C.shape[0] ) )
+
     for j in range( len( field ) ):
     
         data \
