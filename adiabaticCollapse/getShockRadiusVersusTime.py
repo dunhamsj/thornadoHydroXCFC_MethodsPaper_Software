@@ -76,7 +76,7 @@ def findShockRadiusVersusTime \
             if Time < tb: continue
 
             X1_C, X2_C, X3_C, dX1, dX2, dX3, xL, xH \
-              = getMesh_1d( plotfileName )
+              = getMesh_1d( plotfileName, 'spherical' )
 
             Data \
              = getFieldData \

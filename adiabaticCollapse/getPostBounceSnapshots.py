@@ -53,7 +53,8 @@ for s in range( len( suffix ) ) :
         plotfileName \
           = plotfileDirectory + '{:}{:}'.format( plotfileNameRoot, ss )
 
-        X1, X2, X3, dX1, dX2, dX3, xL, xH = getMesh_1d( plotfileName )
+        X1, X2, X3, dX1, dX2, dX3, xL, xH \
+          = getMesh_1d( plotfileName, 'spherical' )
 
         for i in range( len( fields ) ):
 

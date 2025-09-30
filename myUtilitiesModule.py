@@ -66,7 +66,7 @@ def convert( s ):
         return s.decode( encoding )
 # end convert
 
-def getMesh_1d( File, returnTime = False ):
+def getMesh_1d( File, coordinateSystem, returnTime = False ):
 
     ds = yt.load( '{:}'.format( File ) )
 
@@ -95,10 +95,21 @@ def getMesh_1d( File, returnTime = False ):
                             X1 .append( np.float64( X1_C[iX1,iX2,iX3] ) )
                             dX1.append( np.float64( dX1g[iX1,iX2,iX3] ) )
 
-    X2  = [ np.pi / 2.0 ]
-    dX2 = [ np.pi ]
-    X3  = [ np.pi ]
-    dX3 = [ 2.0 * np.pi ]
+    if ( coordinateSystem.lower() == 'spherical' ):
+        X2  = [ np.pi / 2.0 ]
+        dX2 = [ np.pi ]
+        X3  = [ np.pi ]
+        dX3 = [ 2.0 * np.pi ]
+    elif ( coordinateSystem.lower() == 'cylindrical' ):
+        X2  = [ 0.5 ]
+        dX2 = [ 1.0 ]
+        X3  = [ np.pi ]
+        dX3 = [ 2.0 * np.pi ]
+    else:
+        X2  = [ 0.5 ]
+        dX2 = [ 1.0 ]
+        X3  = [ 0.5 ]
+        dX3 = [ 1.0 ]
 
     X1  = np.array( X1  )
     X2  = np.array( X2  )

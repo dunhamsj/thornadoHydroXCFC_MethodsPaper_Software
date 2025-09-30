@@ -29,7 +29,7 @@ nDetCells = '03'
 field = 'PF_D'
 zlabel = r'$\rho$'
 
-saveFig = True
+saveFig = False
 
 # Specify directory containing amrex plotfiles
 plotfileDirectoryRoot = gv.dataDirectory

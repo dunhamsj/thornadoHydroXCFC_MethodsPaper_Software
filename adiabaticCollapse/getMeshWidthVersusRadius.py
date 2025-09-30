@@ -35,7 +35,7 @@ for s in range( len( suffix ) ):
     plotfileName = data[-1][0]
 
     X1, X2, X3, dX1, dX2, dX3, xL, xH, Time \
-      = getMesh_1d( plotfileName, returnTime = True )
+      = getMesh_1d( plotfileName, 'spherical', returnTime = True )
 
     filename \
       = dataDirectory + 'MeshWidthVersusRadius{:}.dat' \

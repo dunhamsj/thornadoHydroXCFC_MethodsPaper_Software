@@ -18,11 +18,20 @@ xlabel = r'$r$'
 
 iSS = -1
 
-field  = [ 'PF_D'          , 'PF_V1'       , 'AF_P' ]
-ylabel = [ r'$\rho / 5000$', r'$v / 0.001$', r'$p / 0.001$' ]
-norm   = [ 5.0e3           , 1.0e-3        , 1.0e-3 ]
+field   = [ 'PF_D', \
+            'PF_V1', \
+            'AF_P' ]
+ylabel  = [ r'$\rho / \rho_{0}$', \
+            r'$v    / v_{0}$', \
+            r'$p    / p_{0}$' ]
+ylabelExact = [ r'$\rho_{\mathrm{Exact}} / \rho_{0}$', \
+                r'$v_{\mathrm{Exact}}    / v_{0}$', \
+                r'$p_{\mathrm{Exact}}    / p_{0}$' ]
+norm    = [ 5.0e3, \
+            1.0e-3, \
+            1.0e-3 ]
 
-xlim = np.array( [ -0.1, 1.1 ] )
+xlim = np.array( [ -0.05, 1.05 ] )
 
 plotGrid = False
 
@@ -37,7 +46,7 @@ vmax = 2.0
 # Save figure (True) or plot figure (False)
 saveFig = True
 
-figName = 'fig.stbw_1d_nDetCells{:}.pdf'.format( nDetCells )
+figName = '/home/dunhamsj/fig.stbw_1d_nDetCells{:}.pdf'.format( nDetCells )
 
 #### ====== End of User Input =======
 
@@ -72,7 +81,7 @@ vel   = data[:,5]
 exact = [ x, den, vel, press ]
 
 X1_C, X2_C, X3_C, dX1, dX2, dX3, xL, xH, time \
-  = getMesh_1d( plotfileName, returnTime = True )
+  = getMesh_1d( plotfileName, 'spherical', returnTime = True )
 
 for i in range( len( field ) ):
 
@@ -85,15 +94,16 @@ for i in range( len( field ) ):
         ax.plot( X1_C, np.ones( X1_C.shape[0] ) * data.max(), \
                  'k.', label = 'mesh' )
 
-    ax.plot( exact[0], exact[i+1] / norm[i], '-', c = gv.color[i] )
     ax.plot( X1_C    , data       / norm[i], '.', c = gv.color[i], \
              label = ylabel[i] )
+    ax.plot( exact[0], exact[i+1] / norm[i], '-', c = gv.color[i], \
+             label = ylabelExact[i] )
 
 if useCustomLimits: ax.set_ylim( vmin, vmax )
 
 ylim = ax.get_ylim()
 
-ax.legend( loc = 1 )
+ax.legend( loc = 2 )
 ax.grid()
 
 ax.set_xlim( xlim )
@@ -101,7 +111,7 @@ ax.set_xlim( xlim )
 ax.set_xlabel( xlabel, fontsize = 15 )
 
 ax.text \
-  ( 0.92, 0.7 * ( ylim[1] - ylim[0] ), \
+  ( 0.45, 0.9 * ( ylim[1] - ylim[0] ), \
     r'$t = {:}$'.format( np.int64( time ) ), \
     bbox = dict( facecolor = 'white', edgecolor = 'black', \
                  boxstyle = 'round' ) )

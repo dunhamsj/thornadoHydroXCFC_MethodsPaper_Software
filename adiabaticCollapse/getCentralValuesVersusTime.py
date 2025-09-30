@@ -9,7 +9,7 @@ yt.funcs.mylog.setLevel(40) # Suppress yt warnings
 
 import globalVariables as gv
 
-from myUtilitiesModule import getPlotfileNumberArray, getMesh_1d, readDensityDecadesFile
+from myUtilitiesModule import getPlotfileNumberArray, readDensityDecadesFile
 
 plotfileDirectoryRoot \
   = gv.dataDirectory + 'adiabaticCollapse/'
