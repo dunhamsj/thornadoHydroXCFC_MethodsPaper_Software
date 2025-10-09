@@ -108,10 +108,10 @@ ax.grid()
 
 ax.set_xlim( xlim )
 
-ax.set_xlabel( xlabel, fontsize = 15 )
+ax.set_xlabel( xlabel )
 
 ax.text \
-  ( 0.45, 0.9 * ( ylim[1] - ylim[0] ), \
+  ( 0.45, 0.875 * ( ylim[1] - ylim[0] ), \
     r'$t = {:}$'.format( np.int64( time ) ), \
     bbox = dict( facecolor = 'white', edgecolor = 'black', \
                  boxstyle = 'round' ) )
