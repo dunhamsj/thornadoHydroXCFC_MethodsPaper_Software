@@ -24,9 +24,9 @@ field   = [ 'PF_D', \
 ylabel  = [ r'$\rho / \rho_{0}$', \
             r'$v    / v_{0}$', \
             r'$p    / p_{0}$' ]
-ylabelExact = [ r'$\rho_{\mathrm{Exact}} / \rho_{0}$', \
-                r'$v_{\mathrm{Exact}}    / v_{0}$', \
-                r'$p_{\mathrm{Exact}}    / p_{0}$' ]
+ylabel_ref = [ r'$\rho_{\mathrm{ref}} / \rho_{0}$', \
+                r'$v_{\mathrm{ref}}    / v_{0}$', \
+                r'$p_{\mathrm{ref}}    / p_{0}$' ]
 norm    = [ 5.0e3, \
             1.0e-3, \
             1.0e-3 ]
@@ -78,7 +78,7 @@ x     = data[:,1]
 den   = data[:,2]
 press = data[:,4]
 vel   = data[:,5]
-exact = [ x, den, vel, press ]
+ref   = [ x, den, vel, press ]
 
 X1_C, X2_C, X3_C, dX1, dX2, dX3, xL, xH, time \
   = getMesh_1d( plotfileName, 'spherical', returnTime = True )
@@ -96,8 +96,8 @@ for i in range( len( field ) ):
 
     ax.plot( X1_C    , data       / norm[i], '.', c = gv.color[i], \
              label = ylabel[i] )
-    ax.plot( exact[0], exact[i+1] / norm[i], '-', c = gv.color[i], \
-             label = ylabelExact[i] )
+    ax.plot( ref[0], ref[i+1] / norm[i], '-', c = gv.color[i], \
+             label = ylabel_ref[i] )
 
 if useCustomLimits: ax.set_ylim( vmin, vmax )
 

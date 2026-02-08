@@ -29,7 +29,7 @@ nDetCells = '03'
 field = 'PF_D'
 zlabel = r'$\rho$'
 
-saveFig = False
+saveFig = True
 
 # Specify directory containing amrex plotfiles
 plotfileDirectoryRoot = gv.dataDirectory
@@ -136,7 +136,7 @@ axs[0].legend()
 axs[0].xaxis.set_ticklabels( '' )
 plt.subplots_adjust( hspace = 0.0 )
 if ( saveFig ) :
-    figName = 'fig.stbw_2d_symmetry.pdf'
+    figName = '/home/dunhamsj/fig.stbw_2d_symmetry.pdf'
     plt.savefig( figName, dpi = 300 )
     print( '\n  Saved {:}'.format( figName ) )
 else:

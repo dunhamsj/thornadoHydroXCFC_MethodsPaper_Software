@@ -94,7 +94,6 @@ def getMesh_1d( File, coordinateSystem, returnTime = False ):
 
                             X1 .append( np.float64( X1_C[iX1,iX2,iX3] ) )
                             dX1.append( np.float64( dX1g[iX1,iX2,iX3] ) )
-
     if ( coordinateSystem.lower() == 'spherical' ):
         X2  = [ np.pi / 2.0 ]
         dX2 = [ np.pi ]
@@ -157,10 +156,10 @@ def getFieldData( plotFileName, \
         for j in range( nX2 ):
             for i in range( nX1 ):
                 Here = k*nX1*nX2 + j*nX1 + i
-                locations[Here] = np.array([X1[i],X2[j],X3[k]])
+                locations[Here] = [X1[i],X2[j],X3[k]]
 
     data \
-      = np.copy( ds.find_field_values_at_points(("boxlib",field),locations ) )
+      = np.copy( ds.find_field_values_at_points( ("boxlib",field), locations ) )
 
     if   ( field == 'PF_V1' ) : dataUnits = 'km/s'
     elif ( field == 'PF_D'  ) : dataUnits = 'g/cm^3'

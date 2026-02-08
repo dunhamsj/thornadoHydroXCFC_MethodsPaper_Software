@@ -28,7 +28,7 @@ mklabel = [ '3D', '2D' ]
 ylabel  = [ r'$\rho / \rho_{0}$', \
             r'$v    / v_{0}$', \
             r'$p    / p_{0}$' ]
-ylabelExact = r'$\mathrm{Exact}$'
+ylabel_ref = r'$\mathrm{ref}$'
 norm    = [ 5.0e3, \
             1.0e-3, \
             1.0e-3 ]
@@ -48,13 +48,13 @@ plotfileDirectory \
 
 ### End of user input ###
 
-exact = np.loadtxt( 'spherical_standard_omega0p00_nDetCells03_t500.dat', \
+ref = np.loadtxt( 'spherical_standard_omega0p00_nDetCells03_t500.dat', \
                    skiprows = 2 )
-xEx   = exact[:,1]
-den   = exact[:,2]
-press = exact[:,4]
-vel   = exact[:,5]
-exact = [ den, vel, press ]
+xEx   = ref[:,1]
+den   = ref[:,2]
+press = ref[:,4]
+vel   = ref[:,5]
+ref = [ den, vel, press ]
 color = gv.color#[ 'gold', 'blue', 'magenta' ] # complementary to gv.color
 
 for j in range( len( field ) ) :
@@ -112,8 +112,8 @@ for j in range( len( field ) ) :
                     label = mklabel[i], \
                     rasterized = True )
 
-    y = [ ex / norm[j] for ex in exact[j] ]
-    ax.plot( xEx, y, 'k-', label = ylabelExact )
+    y = [ ex / norm[j] for ex in ref[j] ]
+    ax.plot( xEx, y, 'k-', label = ylabel_ref )
 
     ax.grid()
     ax.legend( loc = 2 )
