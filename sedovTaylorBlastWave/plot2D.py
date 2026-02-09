@@ -16,7 +16,7 @@ from myUtilitiesModule import getPlotfileNumberArray
 ### Beginning of user input ###
 
 # Specify name of problem
-problemName = 'SedovTaylorBlastWave_XCFC'
+problemName = 'SedovTaylorBlastWave_Relativistic'
 
 iSS = -1
 
@@ -31,12 +31,11 @@ zlabel = r'$\rho$'
 
 saveFig = True
 
+figName = gv.paperDirectory + 'Figures/fig.stbw_2d.pdf'
+
 # Specify directory containing amrex plotfiles
 plotfileDirectoryRoot = gv.dataDirectory
-plotfileDirectory \
-  = plotfileDirectoryRoot \
-      + 'sedovTaylorBlastWave/{0:}_2D_nDetCells{1:}/' \
-        .format( problemName, nDetCells )
+plotfileDirectory = plotfileDirectoryRoot + 'sedovTaylorBlastWave/stbw_2d/'
 
 # Specify plot file base name
 plotfileNameRoot = problemName + '.plt'
@@ -136,9 +135,9 @@ axs[0].legend()
 axs[0].xaxis.set_ticklabels( '' )
 plt.subplots_adjust( hspace = 0.0 )
 if ( saveFig ) :
-    figName = '/home/dunhamsj/fig.stbw_2d_symmetry.pdf'
-    plt.savefig( figName, dpi = 300 )
-    print( '\n  Saved {:}'.format( figName ) )
+    figName2 = 'fig.stbw_2d_symmetry.pdf'
+    plt.savefig( figName2, dpi = 300 )
+    print( '\n  Saved {:}'.format( figName2 ) )
 else:
     plt.show()
 plt.close()
@@ -220,7 +219,6 @@ else:
     #fig.colorbar( mapper, cax = cax, label = r'{:}$-\bar{{\rho}}$'.format( zlabel ) )
 
 if ( saveFig ) :
-    figName = 'fig.stbw_2d_{:}.pdf'.format( field )
     plt.savefig( figName, dpi = 300 )
     print( '\n  Saved {:}'.format( figName ) )
 else:

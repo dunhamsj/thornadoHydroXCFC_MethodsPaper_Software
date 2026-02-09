@@ -10,7 +10,7 @@ from myUtilitiesModule import getPlotfileNumberArray, getMesh_1d, getFieldData
 
 #### ========== User Input ==========
 
-problemName = 'SedovTaylorBlastWave_XCFC'
+problemName = 'SedovTaylorBlastWave_Relativistic'
 
 nDetCells = '03'
 
@@ -46,16 +46,13 @@ vmax = 2.0
 # Save figure (True) or plot figure (False)
 saveFig = True
 
-figName = '/home/dunhamsj/fig.stbw_1d_nDetCells{:}.pdf'.format( nDetCells )
+figName = gv.paperDirectory + 'Figures/fig.stbw_1d.pdf'
 
 #### ====== End of User Input =======
 
 # Specify directory containing amrex plotfiles
 plotfileDirectoryRoot = gv.dataDirectory
-plotfileDirectory \
-  = plotfileDirectoryRoot \
-      + 'sedovTaylorBlastWave/{0:}_1D_nDetCells{1:}/' \
-        .format( problemName, nDetCells )
+plotfileDirectory = plotfileDirectoryRoot + 'sedovTaylorBlastWave/stbw_1d/'
 
 # Specify plot file base name
 plotfileNameRoot = problemName + '.plt'
@@ -127,5 +124,5 @@ else:
 
 plt.close()
 
-import os
+mport os
 os.system( 'rm -rf __pycache__ ' )

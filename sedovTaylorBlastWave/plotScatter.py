@@ -15,7 +15,7 @@ from myUtilitiesModule import getPlotfileNumberArray
 
 saveFig = True
 
-problemName = 'SedovTaylorBlastWave_XCFC'
+problemName = 'SedovTaylorBlastWave_Relativistic'
 
 iSS = -1
 
@@ -43,13 +43,14 @@ plotfileNameRoot = problemName + '.plt'
 
 plotfileDirectory \
   = [ plotfileDirectoryRoot \
-        + 'sedovTaylorBlastWave/{1:}_{0:}_nDetCells{2:}/' \
-          .format( i, problemName, nDetCells ) for i in mklabel ]
+        + 'sedovTaylorBlastWave/stbw_{0:}/' \
+          .format( i.lower() ) for i in mklabel ]
 
 ### End of user input ###
 
-ref = np.loadtxt( 'spherical_standard_omega0p00_nDetCells03_t500.dat', \
-                   skiprows = 2 )
+ref = np.loadtxt( \
+  'spherical_standard_omega0p00_nDetCells{:}_t500.dat'.format( nDetCells ), \
+  skiprows = 2 )
 xEx   = ref[:,1]
 den   = ref[:,2]
 press = ref[:,4]
@@ -84,7 +85,8 @@ for j in range( len( field ) ) :
         ad = ds.all_data()
         x = ad['X1_C'].to_ndarray()
         y = ad['X2_C'].to_ndarray()
-        if ( '2D' in plotfileDirectory[i] ) :
+
+        if ( '2d' in plotfileDirectory[i] ) :
             r = np.sqrt( x**2 + y**2 )
         else:
             z = ad['X3_C'].to_ndarray()
@@ -98,7 +100,7 @@ for j in range( len( field ) ) :
         if ( field[j] == 'PF_V' ) :
             V1 = ad['PF_V1'].to_ndarray()[ind]
             V2 = ad['PF_V2'].to_ndarray()[ind]
-            if ( '2D' in plotfileDirectory[i] ) :
+            if ( '2d' in plotfileDirectory[i] ) :
                 d = np.sqrt( V1**2 + V2**2 )
             else:
                 V3 = ad['PF_V3'].to_ndarray()[ind]
@@ -131,11 +133,14 @@ for j in range( len( field ) ) :
     ax.set_ylabel( ylabel[j] )
 
     if ( saveFig ) :
-        figName = '/home/dunhamsj/fig.stbw_scatter_nDetCells{:}_{:}.pdf' \
-                  .format( nDetCells, field[j] )
+        figName = gv.paperDirectory + 'Figures/fig.stbw_scatter_{:}.pdf' \
+                  .format( field[j] )
         plt.savefig( figName, dpi = 300 )
         print( '\n   Saved {:}'.format( figName ) )
     else:
         plt.show()
 
     plt.close()
+
+import os
+os.system( 'rm -rf __pycache__ ' )
