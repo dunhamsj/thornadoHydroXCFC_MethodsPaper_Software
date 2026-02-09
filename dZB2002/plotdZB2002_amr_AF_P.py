@@ -4,6 +4,8 @@ import numpy as np
 import yt
 
 import globalVariables as gv
+import matplotlib.pyplot as plt
+plt.rcParams.update({'text.usetex': True})
 
 from myUtilitiesModule import getPlotfileNumberArray
 
@@ -18,14 +20,10 @@ cmap = 'Purples'
 
 suffix = 'pdf'
 
-#figName = gv.paperDirectory + 'Figures/\
-#fig.dZB2002_amr.{:}'.format( suffix )
-figName = 'fig.dZB2002_amr_{:}.{:}'.format(field, suffix)
+figName = gv.paperDirectory + 'Figures/\
+fig.dZB2002_amr.{:}'.format(suffix)
 
 dataDirectory = gv.dataDirectory + 'dZB2002/'
-#dataDirectory ='/mnt/shared/work/codes/thornado/SandBox/AMReX/\
-#dgExperiments_Euler_Relativistic_IDEAL/rp2d_amr/' 
-##dgExperiments_Euler_Relativistic_IDEAL/rp2d_uni/' 
 
 plotfileNameRoot = problemName + '.plt.'
 
@@ -47,8 +45,7 @@ slc \
       (ds, 'z', blField, origin = 'native')
 
 slc.set_cmap(blField, cmap)
-
-slc.set_colorbar_label(field, label)
+slc.set_axes_unit('unitary')
 
 slc.set_zlim(field, zmin = zmin, zmax = zmax)
 
@@ -57,16 +54,22 @@ slc.set_log(field, log = True)
 slc.set_minorticks         (field, True)
 slc.set_colorbar_minorticks(field, True)
 
-slc.set_xlabel(r'$x$')
-slc.set_ylabel(r'$y$')
-
 slc.annotate_text \
-  ( (0.13, 0.915), \
+  ( (0.2, 0.815), \
     figTitle, \
     coord_system = 'figure', \
+    inset_box_args = dict(facecolor = 'white', edgecolor = 'black', boxstyle = 'round', alpha = 0.8), \
     text_args \
       = {'color' : 'black', \
          'size' : 26})
+
+fig = slc.export_to_mpl_figure((1,1), cbar_pad = '1%')
+ax = slc.plots[bl, field].axes
+cax = slc.plots[bl, field].cax
+cbar = slc.plots[bl, field].cb
+cbar.set_label(label, size = 32)
+ax.set_xlabel(r'$x$', fontsize = 28)
+ax.set_ylabel(r'$y$', fontsize = 28)
 
 slc.save(figName, suffix = suffix, mpl_kwargs = {'bbox_inches':'tight'})
 print('\n  Saved {:}'.format(figName))
