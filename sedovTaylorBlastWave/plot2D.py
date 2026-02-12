@@ -126,7 +126,7 @@ axs[0].plot( data[:,1], data[:,2], 'k-', label = r'Exact' )
 xlim = [ -0.1, 1.1 ]
 axs[0].set_xlim( xlim )
 axs[1].set_xlim( xlim )
-fig.supxlabel( r'$r$', y = 0.07 )
+fig.supxlabel( r'$R$', y = 0.07 )
 axs[0].set_ylabel( r'$\rho$' )
 axs[1].set_ylabel( r'$\left( \rho - \left<\rho\right>_{S^{2}} \right) / \left<\rho\right>_{S^{2}}$' )
 axs[0].grid()
@@ -143,7 +143,7 @@ else:
 plt.close()
 
 # Set xlabel and ylabel
-xlabel = r'$r$'
+xlabel = r'$R$'
 ylabel = r'$z$'
 
 # Colormap for plot
@@ -158,7 +158,7 @@ useLogScaleZ = True
 
 # Show mesh
 showMesh  = True
-meshAlpha = 0.5
+meshAlpha = 0.2
 
 ### End of user input ###
 
