@@ -15,7 +15,7 @@ figTitle = 'AMR'
 field = 'PF_D'
 label = r'$\rho$'
 zmin = 0.01
-zmax = 2.0
+zmax = 4.0
 cmap = 'viridis'
 
 suffix = 'pdf'
@@ -54,7 +54,7 @@ slc.set_log(field, log = True)
 slc.set_minorticks         (field, True)
 slc.set_colorbar_minorticks(field, True)
 
-slc.annotate_cell_edges(line_width = 1.0e-12, alpha = 0.8, color = 'black')
+slc.annotate_cell_edges(line_width = 1.0e-12, alpha = 0.5, color = 'black')
 
 slc.annotate_text \
   ( (0.2, 0.815), \

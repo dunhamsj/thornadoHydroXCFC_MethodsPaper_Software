@@ -9,7 +9,7 @@ plt.rcParams.update({'text.usetex': True})
 
 from myUtilitiesModule import getPlotfileNumberArray
 
-problemName = 'RiemannProblem2D_dZB2002_uni'
+problemName = 'RiemannProblem2D_dZB2002_uni_256x256'
 figTitle = '256 x 256'
 
 field = 'AF_P'
