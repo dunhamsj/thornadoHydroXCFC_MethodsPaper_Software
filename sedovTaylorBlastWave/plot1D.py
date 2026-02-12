@@ -124,5 +124,5 @@ else:
 
 plt.close()
 
-mport os
+import os
 os.system( 'rm -rf __pycache__ ' )
