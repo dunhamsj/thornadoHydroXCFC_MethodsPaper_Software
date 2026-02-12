@@ -6,7 +6,7 @@ paperDirectory \
 
 global dataDirectory
 dataDirectory \
-  = paperDirectory + 'thornadoHydroXCFC_MethodsPaper_Data/'
+  = '/mnt/lump/thornadoHydroXCFC_MethodsPaper_Data/'
 
 # colorblind-friendly palette: https://gist.github.com/thriveth/8560036
 color = ['#377eb8', '#ff7f00', '#4daf4a', \
