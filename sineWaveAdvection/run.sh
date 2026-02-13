@@ -8,8 +8,9 @@ do
     mpiexec -n 1 ./main1d.gnu.MPI.ex ${fn}.inputs > ${fn}.out
     mkdir ${fn}
     mv ${fn}.inputs ${fn}*out ${fn}
-    mv ${fn}*plt00000000* ${fn}/${fn}.init
-    mv ${fn}*plt* ${fn}/${fn}.final
+    cp -r ${fn}*plt00000000*nodal ${fn}/${fn}.init
+    ls -d *nodal --color=never | cp -r `tail -n 1` ${fn}/${fn}.final
+    mv ${fn}*plt* ${fn}
   done
 done
 for nN in 2 3
@@ -22,8 +23,8 @@ do
       mpiexec -n 1 ./main1d.gnu.MPI.ex ${fn}.inputs > ${fn}.out
       mkdir ${fn}
       mv ${fn}.inputs ${fn}*out ${fn}
-      mv ${fn}*plt00000000* ${fn}/${fn}.init
-      mv ${fn}*plt* ${fn}/${fn}.final
+      ls -d *nodal --color=never | cp -r `tail -n 1` ${fn}/${fn}.final
+      mv ${fn}*plt* ${fn}
     done
   done
 done

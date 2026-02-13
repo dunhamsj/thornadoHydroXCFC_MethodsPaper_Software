@@ -36,7 +36,7 @@ thornado.AdvectionProfile = "SineWaveX1"
 thornado.nNodes  = {4:}
 thornado.t_end   = 1.0e1
 thornado.iCycleD = 1
-thornado.dt_wrt  = 1.1e+1
+thornado.dt_wrt  = 1.0e-1
 thornado.dt_chk  = 1.1e+1
 
 thornado.PlotFileNameRoot        = "Advection1D_SineWaveX1_nN{0:}_nXC{1:}_{2:}{3:}.plt"
