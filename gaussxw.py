@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 ######################################################################
 #
 # Functions to calculate integration points and weights for Gaussian

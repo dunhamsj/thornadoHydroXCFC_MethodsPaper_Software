@@ -5,7 +5,7 @@ import yt
 yt.funcs.mylog.setLevel(40) # Suppress yt warnings
 
 def getPlotfileNumberArray \
-      ( plotfileDirectory, plotfileNameRoot ):
+      ( plotfileDirectory, plotfileNameRoot, swa = False ):
 
     from os import listdir
 
@@ -22,8 +22,12 @@ def getPlotfileNumberArray \
 
         sFile = plotfileArray[iFile]
 
-        if ( sFile[0:lenS] == plotfileNameRoot and sFile[lenS+1].isdigit() ) :
-            plotfileList.append( np.int64( sFile[lenS:lenS+8] ) )
+        if (not swa):
+            if ( sFile[0:lenS] == plotfileNameRoot and sFile[lenS+1].isdigit() ):
+                plotfileList.append( np.int64( sFile[lenS:lenS+8] ) )
+        else:
+            if ( sFile[0:lenS] == plotfileNameRoot and sFile[lenS+1] == 'p' ):
+                plotfileList.append( np.int64( sFile[lenS+4:lenS+12] ) )
 
     plotfileNumbers = np.array( plotfileList )
 
@@ -213,3 +217,16 @@ def readShockRadiusSnapshotsFile( filename ):
 
     return ss, tmtb, Rsh
 # end readShockRadiusSnapshotsFile
+
+def Lagrange( x, xq, i ):
+    L = 1.0
+    for j in range( xq.shape[0] ):
+        if i != j:
+            L *= ( x - xq[j] ) / ( xq[i] - xq[j] )
+    return L
+
+def rho_h( x, xq, rhoq ):
+    rho = 0.0
+    for i in range( xq.shape[0] ):
+        rho += rhoq[i] * Lagrange( x, xq, i )
+    return rho
