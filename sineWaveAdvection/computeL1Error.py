@@ -9,9 +9,6 @@ import globalVariables as gv
 
 from gaussxw import gaussxw
 
-pathToData = gv.dataDirectory + 'SineWaveAdvection/'
-fileNameRoot = pathToData + 'Advection1D_SineWaveX1'
-
 def Lagrange(x, xq, i):
     L = 1.0
     for j in range(xq.shape[0]):
@@ -29,7 +26,7 @@ def D_exact(x):
     W = 1.0 / np.sqrt(1.0 - 0.1**2) 
     return W * (1.0 + 0.1 * np.sin(2.0 * np.pi * x))
 
-def get_data(nN, nXC, grid, FC, suffix):
+def get_data(nN, nXC, grid, FC, suffix, fileNameRoot):
 
     fileName = fileNameRoot \
                  + '_nN{0:}_nXC{1:}_{2:}{3:}/' \
@@ -57,20 +54,20 @@ def get_data(nN, nXC, grid, FC, suffix):
 
     return iLevel.shape[0], dx1, x1n, un
 
-nQ = 10
-xqq, wq = gaussxw(nQ)
-mass0 = 0.0
-xl = 0.0
-dx = 1.0 / 1024
-for i in range(1024):
-    xC = xl + 0.5 * dx
-    xq = xC + dx * xqq
-    mass0 += dx * np.sum(wq * np.abs(D_exact(xq)))
-    xl += dx
+def computeL1error(nN, nXC, grid, FC, fileNameRoot):
 
-def computeL1error(nN, nXC, grid, FC):
+    nQ = 10
+    xqq, wq = gaussxw(nQ)
+    mass0 = 0.0
+    xl = 0.0
+    dx = 1.0 / 1024
+    for i in range(1024):
+        xC = xl + 0.5 * dx
+        xq = xC + dx * xqq
+        mass0 += dx * np.sum(wq * np.abs(D_exact(xq)))
+        xl += dx
 
-    nX, dx, xn, un = get_data(nN, nXC, grid, FC, 'final')
+    nX, dx, xn, un = get_data(nN, nXC, grid, FC, 'final', fileNameRoot)
 
     nQ = nN
     xqq, wq = gaussxw(nQ)
@@ -83,17 +80,18 @@ def computeL1error(nN, nXC, grid, FC):
 
     return nN, nX, L1 / mass0
 
-data = [[2, 32 , 'Single', ''    ], \
-        [2, 32 , 'Multi' , '_FCF'], \
-        [2, 32 , 'Multi' , '_FCT'], \
-        [2, 128, 'Single', ''   ], \
-        [3, 32 , 'Single', ''    ], \
-        [3, 32 , 'Multi' , '_FCF'], \
-        [3, 32 , 'Multi' , '_FCT'], \
-        [3, 128, 'Single', ''   ]]
+if (__name__ == '__main__'):
 
-for i in range(len(data)):
-    L1 = computeL1error(data[i][0], data[i][1], data[i][2], data[i][3])
-    print(data[i], L1[-1])
-import os
-os.system( 'rm -rf __pycache__ ' )
+    data = [[2, 32 , 'Multi' , '_FCF'], \
+            [2, 32 , 'Multi' , '_FCT'], \
+            [3, 32 , 'Multi' , '_FCF'], \
+            [3, 32 , 'Multi' , '_FCT']]
+
+    pathToData = gv.dataDirectory + 'SineWaveAdvection/conservation/'
+    fileNameRoot = pathToData + 'Advection1D_SineWaveX1'
+
+    for i in range(len(data)):
+        L1 = computeL1error(data[i][0], data[i][1], data[i][2], data[i][3], fileNameRoot)
+        print(data[i], L1[-1])
+    import os
+    os.system( 'rm -rf __pycache__ ' )

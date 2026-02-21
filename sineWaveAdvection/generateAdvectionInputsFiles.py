@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-nN  = [ 2, 3 ]
-nXC = [ 32, 64, 128 ]
+nN  = [ 1, 2, 3 ]
+nXC = [ 16, 32, 64, 128, 256, 512 ]
 
 grid = [ 0, 1 ]
 fc   = [ 0, 1 ]
@@ -17,7 +17,7 @@ for g in grid:
         for nn in nN:
             for nxc in nXC:
 
-                if ( ( g == 1 ) & ( nxc != 32 ) ) : continue
+                #if ( ( g == 1 ) & ( nxc != 32 ) ) : continue
                 sn   = str( nn  ).zfill( 2 )
                 snxc = str( nxc ).zfill( 4 )
 
@@ -36,7 +36,7 @@ thornado.AdvectionProfile = "SineWaveX1"
 thornado.nNodes  = {4:}
 thornado.t_end   = 1.0e1
 thornado.iCycleD = 1
-thornado.dt_wrt  = 1.0e-1
+thornado.dt_wrt  = 1.1e+1
 thornado.dt_chk  = 1.1e+1
 
 thornado.PlotFileNameRoot        = "Advection1D_SineWaveX1_nN{0:}_nXC{1:}_{2:}{3:}.plt"
@@ -58,7 +58,7 @@ amr.n_cell                  = {5:} 01 01 # Number of cells in each dimension
 amr.max_level               = {6:}
 amr.UseAMR                  = 0
 amr.UseFluxCorrection_Euler = {7:}
-amr.TagCriteria             = 0.2 0.4
+amr.TagCriteria             = 0.4 0.2
 amr.n_error_buf             = 0
 amr.ref_ratio               = 2
 amr.UseTiling               = 0

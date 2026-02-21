@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-for nN in 2 3
+for nN in 1 2 3
 do
-  for nX in 032 064 128
+  for nX in 016 032 064 128 256 512
   do
     fn=Advection1D_SineWaveX1_nN0${nN}_nXC0${nX}_Single
     mpiexec -n 1 ./main1d.gnu.MPI.ex ${fn}.inputs > ${fn}.out
@@ -13,9 +13,9 @@ do
     mv ${fn}*plt* ${fn}
   done
 done
-for nN in 2 3
+for nN in 1 2 3
 do
-  for nX in 032
+  for nX in 016 032 064 128 256 512
   do
     for FC in F T
     do
