@@ -72,6 +72,8 @@ cbar = slc.plots[bl, field].cb
 cbar.set_label(label, size = 32)
 ax.set_xlabel(r'$x$', fontsize = 28)
 ax.set_ylabel(r'$y$', fontsize = 28)
+ax.tick_params( axis = 'both', labelsize = 26 )
+cax.tick_params( labelsize = 26 )
 
 slc.save(figName, suffix = suffix, mpl_kwargs = {'bbox_inches':'tight'})
 print('\n  Saved {:}'.format(figName))

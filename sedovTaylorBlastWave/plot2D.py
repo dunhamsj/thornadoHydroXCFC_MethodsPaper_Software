@@ -205,15 +205,17 @@ for i in range( d.shape[0] ):
 plt.gca().set_aspect( 'equal' )
 ax.set_xlim( xL[0], xH[0] )
 ax.set_ylim( xL[1], xH[1] )
-ax.set_xlabel( xlabel )
-ax.set_ylabel( ylabel )
+ax.set_xlabel( xlabel, fontsize = 14 )
+ax.set_ylabel( ylabel, fontsize = 14 )
 
 # Colorbar code from
 # https://stackoverflow.com/questions/32462881/add-colorbar-to-existing-axis
 divider = make_axes_locatable( ax )
 cax = divider.append_axes( 'right', size = '5%', pad = 0.05 )
 if ( useLogScaleZ ) :
-    fig.colorbar( mapper, cax = cax, label = r'$\log_{{10}}\,${:}'.format( zlabel ) )
+    cb = fig.colorbar( mapper, cax = cax )
+    cb.set_label( label = r'$\log_{{10}}\,${:}'.format( zlabel ), \
+                  fontsize = 14 )
 else:
     fig.colorbar( mapper, cax = cax, label = r'{:}'.format( zlabel ) )
     #fig.colorbar( mapper, cax = cax, label = r'{:}$-\bar{{\rho}}$'.format( zlabel ) )
