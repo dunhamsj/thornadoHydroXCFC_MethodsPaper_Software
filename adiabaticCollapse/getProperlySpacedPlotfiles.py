@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 '''
 Because of restarting from checkpoints, not all plotfiles are separated

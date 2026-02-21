@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 nN  = [ 1, 2, 3 ]
 nXC = [ 16, 32, 64, 128, 256, 512 ]
