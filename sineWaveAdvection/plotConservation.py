@@ -12,7 +12,7 @@ from gaussxw import gaussxw
 
 import globalVariables as gv
 
-rootPathToData = gv.dataDirectory + 'SineWaveAdvection/'
+rootPathToData = gv.dataDirectory + 'SineWaveAdvection/conservation/'
 
 def get_data(nN, fileName):
 
@@ -39,14 +39,14 @@ def exact(x):
     W = 1.0 / np.sqrt(1.0 - 0.1**2)
     return W * (1.0 + 0.1 * np.sin( 2.0 * np.pi * x ))
 
-data = [[2, 32 , 'Single', ''    , 'DG(1), nXC = 32'], \
-        [2, 32 , 'Multi' , '_FCF', 'DG(1), nXC = 32 (F)'], \
-        [2, 32 , 'Multi' , '_FCT', 'DG(1), nXC = 32 (T)'], \
-        [2, 128, 'Single', ''    , 'DG(1), nXC = 128'], \
-        [3, 32 , 'Single', ''    , 'DG(2), nXC = 32'], \
-        [3, 32 , 'Multi' , '_FCF', 'DG(2), nXC = 32 (F)'], \
-        [3, 32 , 'Multi' , '_FCT', 'DG(2), nXC = 32 (T)'], \
-        [3, 128, 'Single', ''    , 'DG(2), nXC = 128']]
+data = [ \
+        [1, 32 , 'Multi' , '_FCF', 'DG(0) (Off)', '--', 0], \
+        [1, 32 , 'Multi' , '_FCT', 'DG(0) (On)' , '-' , 0], \
+        [2, 32 , 'Multi' , '_FCF', 'DG(1) (Off)', '--', 1], \
+        [2, 32 , 'Multi' , '_FCT', 'DG(1) (On)' , '-' , 1], \
+        [3, 32 , 'Multi' , '_FCF', 'DG(2) (Off)', '--', 2], \
+        [3, 32 , 'Multi' , '_FCT', 'DG(2) (On)' , '-' , 2] \
+       ]
 
 
 def computeMass(un, dx, wq):
@@ -66,7 +66,7 @@ for i in range(1024):
     mass0 += dx * np.sum(wq * np.abs(exact(xq)))
     xl += dx
 
-def plot(nN, nXC, grid, fc, lab):
+def plot(nN, nXC, grid, fc, lab, ls, cint):
 
     id = 'Advection1D_SineWaveX1_nN{:}_nXC{:}_{:}{:}' \
          .format(str(nN).zfill(2), str(nXC).zfill(4), grid, fc)
@@ -89,20 +89,19 @@ def plot(nN, nXC, grid, fc, lab):
 
     t = np.linspace(0, 10, dm.shape[0])
 
-    plt.plot(t,np.abs(dm-mass0)/mass0,label=lab)
+    plt.plot(t,np.abs(dm - dm[0]) / dm[0], ls = ls, c = gv.color[cint], label = lab)
 
 for i in range(len(data)):
-    plot(data[i][0],data[i][1],data[i][2],data[i][3],data[i][4])
+    plot(data[i][0], data[i][1], data[i][2], data[i][3], data[i][4], data[i][5], data[i][6])
 
-plt.title('Sine wave advection, ' + r'$M(t) := \int_{0}^{1} D\left(x,t\right) \, dx = \Delta x \sum_{q} w_{q} D_{q}(t)$')
-plt.xlabel('time')
-plt.ylabel(r'$\left|M(t)-M(0)\right|/M(0)$')
+#plt.title('Sine wave advection, ' + r'$M(t) := \int_{0}^{1} D\left(x,t\right) \, dx = \Delta x \sum_{q} w_{q} D_{q}(t)$')
+plt.xlabel('time', fontsize = 16)
+plt.ylabel(r'$\left|M(t)-M(0)\right|/M(0)$', fontsize = 16)
 plt.yscale('log')
-#plt.ylim(-1.0e-14, 1.0e-14)
-plt.legend()
-plt.show()
-#figname = '/Users/dunhamsj/fig.png'
-#plt.savefig(figname, dpi = 300)
-#print('  Saved {:}'.format(figname))
+plt.legend(loc=(0.5,0.18))
+#plt.show()
+figname = gv.paperDirectory + 'Figures/fig.conservation.pdf'
+plt.savefig(figname, dpi = 300)
+print('  Saved {:}'.format(figname))
 import os
 os.system('rm -rf __pycache__')
