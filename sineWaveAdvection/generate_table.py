@@ -2,12 +2,10 @@
 
 from datetime import datetime
 import numpy as np
-import matplotlib.pyplot as plt
-plt.style.use( 'publication.sty' )
 
 import globalVariables as gv
 
-fig, ax = plt.subplots( 1, 1 )
+from computeL1Error import computeL1error
 
 nn = [ 2, 3 ]
 
@@ -41,7 +39,14 @@ for i in range( len( nn ) ):
 
     nXC = 32
 
-    from computeL1Error import computeL1error
+    N, nX1, L1 = computeL1error(nN, nXC, 'Single', '')
+    narr .append( N   )
+    nxarr.append( nX1 )
+    L1arr.append( L1  )
+    garr .append( 'Single' )
+    fcarr.append( 'N/A' )
+
+    nXC = 128
 
     N, nX1, L1 = computeL1error(nN, nXC, 'Single', '')
     narr .append( N   )
@@ -50,12 +55,7 @@ for i in range( len( nn ) ):
     garr .append( 'Single' )
     fcarr.append( 'N/A' )
 
-    N, nX1, L1 = computeL1error(nN, nXC, 'Multi', '_FCT')
-    narr .append( N   )
-    nxarr.append( nX1 )
-    L1arr.append( L1  )
-    garr .append( 'Multi' )
-    fcarr.append( 'Yes' )
+    nXC = 32
 
     N, nX1, L1 = computeL1error(nN, nXC, 'Multi', '_FCF')
     narr .append( N   )
@@ -64,14 +64,12 @@ for i in range( len( nn ) ):
     garr .append( 'Multi' )
     fcarr.append( 'No' )
 
-    nXC = 64
-
-    N, nX1, L1 = computeL1error(nN, nXC, 'Single', '')
+    N, nX1, L1 = computeL1error(nN, nXC, 'Multi', '_FCT')
     narr .append( N   )
     nxarr.append( nX1 )
     L1arr.append( L1  )
-    garr .append( 'Single' )
-    fcarr.append( 'N/A' )
+    garr .append( 'Multi' )
+    fcarr.append( 'Yes' )
 
     with open( filename, 'a' ) as f:
         for i in range( len( L1arr ) ):
@@ -80,10 +78,6 @@ for i in range( len( nn ) ):
                      .format( narr[i], nxarr[i], garr[i], fcarr[i], \
                               L1arr[i] / 10**( exponent ), np.int64( exponent ) ) )
 
-    plt.loglog( np.array(narr)*np.array(nxarr), L1arr, '.', label = 'nN = {:}'.format(str(nN).zfill(2)))
-
-plt.legend()
-plt.show()
 
 with open( filename, 'a' ) as f:
     f.write( '  \\enddata\n' )

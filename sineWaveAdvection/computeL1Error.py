@@ -36,7 +36,6 @@ def get_data(nN, nXC, grid, FC, suffix):
                    .format(str(nN).zfill(2), str(nXC).zfill(4), grid, FC, suffix) \
                  + 'Advection1D_SineWaveX1_nN{0:}_nXC{1:}_{2:}{3:}.{4:}/CF_D_proc000.dat' \
                    .format(str(nN).zfill(2), str(nXC).zfill(4), grid, FC, suffix)
-    print(fileName)
 
 
     nN = np.array([nN, 1, 1], dtype = np.int64)
@@ -77,12 +76,10 @@ def computeL1error(nN, nXC, grid, FC):
     xqq, wq = gaussxw(nQ)
 
     L1 = 0.0
-    xl = 0.0
     for i in range(nX):
-        xC = xl + 0.5 * dx[i]
+        xC = np.sum(xn[i]) / xn[1].shape[0]
         xq = xC + dx[i] * xqq
         L1 += dx[i] * np.sum(wq * np.abs(uh(xq, xn[i], un[i]) - D_exact(xq)))
-        xl += dx[i]
 
     return nN, nX, L1 / mass0
 
