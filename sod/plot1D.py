@@ -11,7 +11,8 @@ from myUtilitiesModule import getPlotfileNumberArray, getMesh_1d, getFieldData
 #### ========== User Input ==========
 
 problemNameRoot = 'RiemannProblem1D_Sod'
-suffix = [ '_nX0256', '_nX0016_AMR' ]
+suffix = [ '_nX0256', '_nX0016_AMR_FCT']#, '_nX0016_AMR_FCF' ]
+leglabel = [ r'$N_{K} = 256$', 'AMR (On)]#', 'AMR (Off)' ]
 
 xlabel = r'$x$'
 
@@ -23,13 +24,12 @@ field   = [ 'PF_D', \
 ylabel  = [ r'$\rho$', \
             r'$v$', \
             r'$p$' ]
-leglabel = [ r'$N_{K} = 256$', 'AMR' ]
 
 xlim = np.array( [ -0.02, 1.02 ] )
 
 saveFig = True
 
-figName = '/home/dunhamsj/fig.sod.pdf'
+figName = gv.paperDirectory + 'Figures/fig.sod.pdf'
 
 #### ====== End of User Input =======
 
@@ -92,6 +92,37 @@ for i in range( len( field ) - 1 ) :
 
 plt.subplots_adjust( hspace = 0.0 )
 
+if ( saveFig ) :
+
+    plt.savefig( figName, dpi = 300 )
+    print( '\n  Saved {:}'.format( figName ) )
+
+else:
+
+    plt.show()
+
+plt.close()
+
+fig, ax = plt.subplots( 1, 1 )
+
+for i in range( len( suffix ) ) :
+
+    plotfileName = plotfileDirectory + problemNameRoot + suffix[i] + '.Tally_BaryonicMass.dat'
+
+    data = np.loadtxt(plotfileName, skiprows = 1)
+    time = data[:,0]
+    dm = np.abs(data[:,-1] / data[0,3])
+
+    ax.grid()
+
+    ax.semilogy( time, dm, '.', c = gv.color[i], label = leglabel[i] )
+
+ax.legend( loc = 1 )
+ax.set_xlabel( 'time', fontsize = 15 )
+ax.set_ylabel( r'$\left|M\left(t\right) - M\left(0\right)\right| / M\left(0\right)$' )
+
+figName = gv.paperDirectory + 'Figures/fig.sod_conservation.pdf'
+figName = 'fig.sod_conservation.pdf'
 if ( saveFig ) :
 
     plt.savefig( figName, dpi = 300 )
