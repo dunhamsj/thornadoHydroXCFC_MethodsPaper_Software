@@ -13,7 +13,7 @@ from computeL1Error import computeL1error
 NN = [ 1, 2, 3 ]
 Grid = ['Single', 'Multi']
 FC = ['', '_FCF', '_FCT']
-NXC = [16, 32, 64, 128, 256]#, 512]
+NXC = [16, 32, 64, 128, 256, 512]
 
 pathToData = gv.dataDirectory + 'SineWaveAdvection/convergence_rates/'
 fileNameRoot = pathToData + 'Advection1D_SineWaveX1'
