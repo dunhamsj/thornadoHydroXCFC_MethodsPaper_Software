@@ -12,7 +12,7 @@ from gaussxw import gaussxw
 
 import globalVariables as gv
 
-rootPathToData = gv.dataDirectory + 'SineWaveAdvection/conservation/'
+rootPathToData = gv.dataDirectory + 'sineWaveAdvection/conservation/'
 
 def get_data(nN, fileName):
 

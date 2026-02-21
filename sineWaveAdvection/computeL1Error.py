@@ -87,7 +87,7 @@ if (__name__ == '__main__'):
             [3, 32 , 'Multi' , '_FCF'], \
             [3, 32 , 'Multi' , '_FCT']]
 
-    pathToData = gv.dataDirectory + 'SineWaveAdvection/conservation/'
+    pathToData = gv.dataDirectory + 'sineWaveAdvection/conservation/'
     fileNameRoot = pathToData + 'Advection1D_SineWaveX1'
 
     for i in range(len(data)):

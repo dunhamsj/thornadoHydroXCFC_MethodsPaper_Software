@@ -15,7 +15,7 @@ Grid = ['Single', 'Multi']
 FC = ['', '_FCF', '_FCT']
 NXC = [16, 32, 64, 128, 256, 512]
 
-pathToData = gv.dataDirectory + 'SineWaveAdvection/convergence_rates/'
+pathToData = gv.dataDirectory + 'sineWaveAdvection/convergence_rates/'
 fileNameRoot = pathToData + 'Advection1D_SineWaveX1'
 
 filename = gv.paperDirectory + 'FluxCorrections_L1.tex'
