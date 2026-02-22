@@ -40,13 +40,15 @@ def getDensityDecades(plotfileDirectory, ID, dirSuffix):
 
         for iSS in range(nSS):
 
-            if (iSS % 10 == 0):
-              print('  {:}/{:}'.format(iSS, nSS))
-
             plotfileName = plotfileDirectory + plotfileBaseName + str(SS[iSS]).zfill(8)
 
             r, X2_C, X3_C, dr, dX2, dX3, xL, xH, t \
               = getMesh_1d(plotfileName, 'spherical', returnTime = True)
+
+            if (iSS == 0): print('  NK = {:}'.format(r.shape[0]))
+
+            if (iSS % 10 == 0):
+              print('  {:}/{:}'.format(iSS, nSS))
 
             rho    = getFieldData(plotfileName, 'PF_D'     , r, X2_C, X3_C)
             sqrtGm = getFieldData(plotfileName, 'GF_SqrtGm', r, X2_C, X3_C)
