@@ -17,7 +17,7 @@ ax = axs[0]
 dirSuffix = ['_11_11'                    , '_nX0032'                     , '_nX0128'                   ]
 ID        = ['StaticTOV_multiLevel'      , 'StaticTOV_singleLevel'       , 'StaticTOV_singleLevel'     ]
 ls        = ['-'                         , '-'                           , '-'                         ]
-lab       = ['Multi ' + r'($N_{K} = 32$)', 'Single ' + r'($N_{K} = 32$)' , 'Single ' + r'($N_{K} = 128$)']
+lab       = ['Multi ' + r'($N_{K} = 58$)', 'Single ' + r'($N_{K} = 32$)' , 'Single ' + r'($N_{K} = 128$)']
 c = [0, 1, -1]
 for i in range(len(ID)):
 
@@ -36,7 +36,7 @@ ax = axs[1]
 dirSuffix = ['_11'                       , '_nX0064'                     , '_nX0128'                     ]
 ID        = ['StaticTOV_multiLevel'      , 'StaticTOV_singleLevel'       , 'StaticTOV_singleLevel'       ]
 ls        = ['-'                         , '-'                           , '-'                           ]
-lab       = ['Multi ' + r'($N_{K} = 64$)', 'Single ' + r'($N_{K} = 64$)' , 'Single ' + r'($N_{K} = 128$)']
+lab       = ['Multi ' + r'($N_{K} = 80$)', 'Single ' + r'($N_{K} = 64$)' , 'Single ' + r'($N_{K} = 128$)']
 c = [0, 1, -1]
 for i in range(len(ID)):
 
