@@ -94,6 +94,7 @@ for iSS in SS:
     dr     = ad['dX1' ].to_ndarray()
     dtheta = ad['dX2' ].to_ndarray()
     d = ad[field].to_ndarray()
+    print(d.shape)
     
     if (iSS == 0):
         ax.text(0.05, 0.9, r'$t = {:.0f}\ \mathrm{{ms}}$'.format(time), \
