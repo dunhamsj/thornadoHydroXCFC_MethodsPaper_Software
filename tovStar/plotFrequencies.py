@@ -1,12 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
+from datetime import datetime
 import numpy as np
 import matplotlib.pyplot as plt
-plt.style.use( 'publication.sty' )
 
 import globalVariables as gv
-
-from getDensityData import *
 
 fig, axs = plt.subplots(2, 1)
 prop = {'size': 8}
@@ -21,11 +19,11 @@ for i in range(len(ID)):
 
     filename = gv.dataDirectory + 'tovStar/' \
                  + '{:}{:}_CentralDensityVersusTime.dat' \
-                   .format(ID[i], dirSuffix[i])
-    t, rhoC = np.loadtxt(filename)
+                   .format(ID[0], dirSuffix[0])
+    
+    ind = np.where(freq_pos < 8.5e3)[0]
+    ax.plot(freq_pos[ind], power_pos[ind])
 
-    ax.plot(t, 1.0e4 * (rhoC - rhoC[0]) / rhoC[0], ls[i], c = gv.color[c[i]], \
-            label = lab[i])
 ax.legend(prop=prop)
 ax.grid()
 ax.xaxis.set_ticklabels([])
@@ -40,24 +38,22 @@ for i in range(len(ID)):
 
     filename = gv.dataDirectory + 'tovStar/' \
                  + '{:}{:}_CentralDensityVersusTime.dat' \
-                   .format(ID[i], dirSuffix[i])
-    t, rhoC = np.loadtxt(filename)
+                   .format(ID[0], dirSuffix[0])
+    
+    ind = np.where(freq_pos < 8.5e3)[0]
+    ax.plot(freq_pos[ind], power_pos[ind])
 
-    ax.plot(t, 1.0e4 * (rhoC - rhoC[0]) / rhoC[0], ls[i], c = gv.color[c[i]], \
-            label = lab[i])
 ax.legend(prop=prop)
 ax.grid()
 
-fig.supxlabel(r'$t/\mathrm{ms}$')
-fig.supylabel(r'$10^{4}\times\left(\bar{\rho}_{<1\,\mathrm{km}}\left(t\right)-\bar{\rho}_{<1\,\mathrm{km}}\left(0\right)\right)/\bar{\rho}_{<1\,\mathrm{km}}\left(0\right)$')
+fig.supxlabel(r'$f\ \left[\mathrm{Hz}\right]$')
+fig.supylabel(r'$P\ \left[\mathrm{g \, cm}^{-3}\right]$')
 plt.subplots_adjust(hspace = 0)
 
+figName = gv.paperDirectory + 'Figures/fig.fft.pdf'
+plt.savefig(figName, dpi=300)
 #plt.show()
-
-figName = gv.paperDirectory + 'Figures/fig.tov.pdf'
-#figName = 'fig.tov.pdf'
-plt.savefig( figName, dpi = 300 )
-print( '\n  Saved {:}'.format( figName ) )
+print('\n  Saved {:}'.format(figName))
 
 import os
 os.system('rm -rf __pycache__')

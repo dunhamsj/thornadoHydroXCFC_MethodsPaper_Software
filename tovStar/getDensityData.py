@@ -70,6 +70,7 @@ def getDensityDecades(plotfileDirectory, ID, dirSuffix):
                  .format(filename, __file__, datetime.today())
 
         np.savetxt(filename, np.vstack((time, density)), header = header)
+        os.system('chmod 444 {:}'.format(filename))
 
         print('  Generated {:}'.format(filename))
     
