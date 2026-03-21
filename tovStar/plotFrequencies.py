@@ -19,12 +19,11 @@ dirSuffix = ['_11'                       , '_11_11'                      , '_nX0
 ID        = ['StaticTOV_multiLevel'      , 'StaticTOV_multiLevel'        , 'StaticTOV_singleLevel'       , 'StaticTOV_singleLevel'       , 'StaticTOV_singleLevel'     ]
 ls        = ['-'                         , '-'                           , '-'                           , '-'                           , '-'                         ]
 lab       = ['Two-Level ' + r'($N_{K} = 80$)', 'Three-Level ' + r'($N_{K} = 58$)' , 'Single-Level ' + r'($N_{K} = 32$)' , 'Single-Level ' + r'($N_{K} = 64$)' , 'Single-Level ' + r'($N_{K} = 128$)']
-c = [0, 1, 2, 3, -1]
 for i in range(len(ID)):
 
     ax = axs[i]
     for f in F:
-        ax.axvline(f)
+        ax.axvline(f, c = 'k', ls = '--')
     filename = gv.dataDirectory + 'tovStar/' \
                  + '{:}{:}_fft.dat' \
                    .format(ID[i], dirSuffix[i])
@@ -32,16 +31,20 @@ for i in range(len(ID)):
     freq, power = np.loadtxt(filename)
     ind = np.where(freq < freq_max)[0]
     power /= power_scale
-    ax.plot(freq[ind], power[ind], ls[i], c = gv.color[c[i]], \
-            label = lab[i])
+    ax.plot(freq[ind], power[ind], ls[i], c = 'k')
+    ax.text \
+      ( 0.02, 0.8, \
+        lab[i], transform = ax.transAxes, \
+        size = 8, \
+        bbox = dict( facecolor = 'white', \
+                     edgecolor = 'black', \
+                     boxstyle = 'round' ) )
     ax.grid()
     if (i < axs.shape[0]-1):
         ax.xaxis.set_ticklabels([])
 
-    ax.legend(loc = 2, prop=prop)
-
 fig.supxlabel(r'$f\ \left[\mathrm{Hz}\right]$')
-fig.supylabel(r'$10^{10} \times P\ \left[\mathrm{g \, cm}^{-3}\right]$')
+fig.supylabel(r'$10^{10} \times \mathrm{FFT\ of}\ \bar{\rho}_{<1\,\mathrm{km}}\left(t\right)$')
 plt.subplots_adjust(hspace = 0)
 
 figName = gv.paperDirectory + 'Figures/fig.fft.pdf'
