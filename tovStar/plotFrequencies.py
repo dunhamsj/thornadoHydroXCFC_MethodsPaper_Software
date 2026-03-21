@@ -33,16 +33,19 @@ for i in range(len(ID)):
     power /= power_scale
     ax.plot(freq[ind], power[ind], ls[i], c = 'k')
     ax.text \
-      ( 0.02, 0.8, \
+      ( 0.02, 0.75, \
         lab[i], transform = ax.transAxes, \
         size = 8, \
         bbox = dict( facecolor = 'white', \
                      edgecolor = 'black', \
                      boxstyle = 'round' ) )
-    ax.grid()
     if (i < axs.shape[0]-1):
         ax.xaxis.set_ticklabels([])
 
+axs[0].text(F[0] * (1.0 + 0.03), 10.5, r'$F$')
+axs[0].text(F[1] * (1.0 + 0.03), 10.5, r'$H_{1}$')
+axs[0].text(F[2] * (1.0 + 0.01), 10.5, r'$H_{2}$')
+axs[0].text(F[3] * (1.0 + 0.01), 10.5, r'$H_{3}$')
 fig.supxlabel(r'$f\ \left[\mathrm{Hz}\right]$')
 fig.supylabel(r'$10^{10} \times \mathrm{FFT\ of}\ \bar{\rho}_{<1\,\mathrm{km}}\left(t\right)$')
 plt.subplots_adjust(hspace = 0)
