@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-from datetime import datetime
 import numpy as np
 import matplotlib.pyplot as plt
+plt.style.use( 'publication.sty' )
 
 import globalVariables as gv
 
