@@ -14,6 +14,8 @@ def getFFT(ID, dirSuffix):
 
     t, rhoC = np.loadtxt(filename)
     
+    t /= 1.0e3
+
     N  = t.shape[0]
     dt = np.mean(np.diff(t))
     
