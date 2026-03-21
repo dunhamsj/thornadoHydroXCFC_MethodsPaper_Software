@@ -50,7 +50,7 @@ xH = 1.5e2
 vmin = 1.0e7
 vmax = 3.0e10
 
-SS = [ 0, 1, 3, 2 ]
+SS = [ 1, 50, 90, 60 ]
 
 ### End of user input ###
 
