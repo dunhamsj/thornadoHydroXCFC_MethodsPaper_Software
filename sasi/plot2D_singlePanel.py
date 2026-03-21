@@ -16,8 +16,8 @@ import globalVariables as gv
 # Specify name of problem
 problemName = 'StandingAccretionShock_XCFC'
 
-#plotfileDirectory = '/Users/dunhamsj/sasi_nX0_096_tagOnShocksAndRlLT21/'
-plotfileDirectory = gv.dataDirectory + 'sasi/'
+plotfileDirectory = '/Users/dunhamsj/sasi_nX0_096_tagOnShocksAndRlLT21/'
+#plotfileDirectory = gv.dataDirectory + 'sasi/'
 
 # Specify plot file base name
 plotfileNameRoot = problemName + '.plt'
@@ -45,13 +45,13 @@ ShowMesh  = True
 MeshAlpha = 0.05
 
 # Outer boundary of plot
-xH = 1.25e2
+xH = 1.5e2
 
 # Colorbar limits
 vmin = 1.0e7
 vmax = 3.0e10
 
-SS = [ 0, 1 ]
+SS = [ 1, 50, 90, 61 ]
 
 ### End of user input ###
 
@@ -66,11 +66,9 @@ plotfileNumberArray \
 fig, ax = plt.subplots()
 ax.grid(False)
 ax.set_xlim([-xH, xH])
-ax.set_ylim([0.0, xH])
-ax.set_xlabel(yLabel, fontsize = 16)
-ax.set_ylabel(xLabel, fontsize = 16)
-
-th = [np.pi / 2.0]
+ax.set_ylim([-xH, xH])
+ax.set_xlabel(xLabel, fontsize = 16)
+ax.set_ylabel(yLabel, fontsize = 16)
 
 # Adapted from
 # https://stackoverflow.com/questions/28752727/
@@ -81,7 +79,9 @@ mapper = mpl.cm.ScalarMappable(norm = norm, cmap = cmap)
 pe = 1
 figName = figNameRoot + '.pdf'
     
-for iSS in SS:
+for j in range(len(SS)):
+
+    iSS = SS[j]
 
     ds = yt.load(plotfileDirectory + plotfileNameRoot \
                     + str(plotfileNumberArray[iSS]).zfill(8))
@@ -96,38 +96,72 @@ for iSS in SS:
     d = ad[field].to_ndarray()
     print(d.shape)
     
-    if (iSS == 0):
-        ax.text(0.05, 0.9, r'$t = {:.0f}\ \mathrm{{ms}}$'.format(time), \
+    if (j == 0):
+        ax.text(0.02, 0.94, r'$t = {:.0f}\ \mathrm{{ms}}$'.format(time), \
                 fontsize = 12, transform = ax.transAxes)
-    if (iSS == 1):
-        ax.text(0.8, 0.9, r'$t = {:.0f}\ \mathrm{{ms}}$'.format(time), \
+    if (j == 1):
+        ax.text(0.78, 0.94, r'$t = {:.0f}\ \mathrm{{ms}}$'.format(time), \
+                fontsize = 12, transform = ax.transAxes)
+    if (j == 2):
+        ax.text(0.02, 0.04, r'$t = {:.0f}\ \mathrm{{ms}}$'.format(time), \
+                fontsize = 12, transform = ax.transAxes)
+    if (j == 3):
+        ax.text(0.78, 0.04, r'$t = {:.0f}\ \mathrm{{ms}}$'.format(time), \
                 fontsize = 12, transform = ax.transAxes)
     
     for i in range(0, d.shape[0], pe):
-        if(r[i] > xH): continue
-        if((iSS == 0) & (theta[i] < np.pi/2)): continue
-        if((iSS == 1) & (theta[i] > np.pi/2)): continue
+        if(r[i] + 0.5 * dr[i] > xH): continue
+
+        skip = True
+
+        x = r[i] * np.sin(theta[i])
+        z = r[i] * np.cos(theta[i])
+
+        if ((j == 0) | (j == 2)): x *= -1.0
+
+        if((j == 0) & ((z > 0.0) & (x < 0.0))): skip = False
+        if((j == 1) & ((z > 0.0) & (x > 0.0))): skip = False
+        if((j == 2) & ((z < 0.0) & (x < 0.0))): skip = False
+        if((j == 3) & ((z < 0.0) & (x > 0.0))): skip = False
+
+        if (skip): continue
+
+        rL = r[i] - 0.5 * dr[i]
+        rH = r[i] + 0.5 * dr[i]
+        tL = theta[i] - 0.5 * dtheta[i]
+        tH = theta[i] + 0.5 * dtheta[i]
 
         # Specify corners of polygon
-        x11 = r[i] * np.sin(theta[i] - 0.5 * dtheta[i])
-        x12 = (r[i] + dr[i]) * np.sin(theta[i] - 0.5 * dtheta[i])
-        x22 = r[i] * np.sin(theta[i] + 0.5 * dtheta[i])
-        x21 = (r[i] + dr[i]) * np.sin(theta[i] + 0.5 * dtheta[i])
-        z11 = r[i] * np.cos(theta[i] - 0.5 * dtheta[i])
-        z12 = (r[i] + dr[i]) * np.cos(theta[i] - 0.5 * dtheta[i])
-        z22 = r[i] * np.cos(theta[i] + 0.5 * dtheta[i])
-        z21 = (r[i] + dr[i]) * np.cos(theta[i] + 0.5 * dtheta[i])
+        if ((j == 1) | (j == 3)):
+            x11 = rL * np.sin(tL)
+            z11 = rL * np.cos(tL)
+            x12 = rH * np.sin(tL)
+            z12 = rH * np.cos(tL)
+            x21 = rH * np.sin(tH)
+            z21 = rH * np.cos(tH)
+            x22 = rL * np.sin(tH)
+            z22 = rL * np.cos(tH)
+        else:
+            x11 = -rL * np.sin(tL)
+            z11 = rL * np.cos(tL)
+            x12 = -rH * np.sin(tL)
+            z12 = rH * np.cos(tL)
+            x21 = -rH * np.sin(tH)
+            z21 = rH * np.cos(tH)
+            x22 = -rL * np.sin(tH)
+            z22 = rL * np.cos(tH)
     
         xy = list(zip([x11, x12, x21, x22], [z11, z12, z21, z22]))
-        xy = list(zip([z11, z12, z21, z22], [x11, x12, x21, x22]))
     
         rgba = mapper.to_rgba(d[i])
 
         ax.add_patch(mpl.patches.Polygon \
                        (xy = xy, fill = True, fc = rgba, ec = rgba))
-    
+
 if (ShowMesh):
-    for iSS in SS:
+    for j in range(len(SS)):
+
+        iSS = SS[j]
     
         ds = yt.load(plotfileDirectory + plotfileNameRoot \
                         + str(plotfileNumberArray[iSS]).zfill(8))
@@ -141,26 +175,53 @@ if (ShowMesh):
         
         for i in range(0, d.shape[0], pe):
             if(r[i] > xH): continue
-            if((iSS == 0) & (theta[i] < np.pi/2)): continue
-            if((iSS == 1) & (theta[i] > np.pi/2)): continue
-        
+
+            skip = True
+
+            x = r[i] * np.sin(theta[i])
+            z = r[i] * np.cos(theta[i])
+
+            if ((j == 0) | (j == 2)): x *= -1.0
+
+            if((j == 0) & ((z > 0.0) & (x < 0.0))): skip = False
+            if((j == 1) & ((z > 0.0) & (x > 0.0))): skip = False
+            if((j == 2) & ((z < 0.0) & (x < 0.0))): skip = False
+            if((j == 3) & ((z < 0.0) & (x > 0.0))): skip = False
+
+            if (skip): continue
+
+            rL = r[i] - 0.5 * dr[i]
+            rH = r[i] + 0.5 * dr[i]
+            tL = theta[i] - 0.5 * dtheta[i]
+            tH = theta[i] + 0.5 * dtheta[i]
+
             # Specify corners of polygon
-            x11 = r[i] * np.sin(theta[i] - 0.5 * dtheta[i])
-            x12 = (r[i] + dr[i]) * np.sin(theta[i] - 0.5 * dtheta[i])
-            x22 = r[i] * np.sin(theta[i] + 0.5 * dtheta[i])
-            x21 = (r[i] + dr[i]) * np.sin(theta[i] + 0.5 * dtheta[i])
-            z11 = r[i] * np.cos(theta[i] - 0.5 * dtheta[i])
-            z12 = (r[i] + dr[i]) * np.cos(theta[i] - 0.5 * dtheta[i])
-            z22 = r[i] * np.cos(theta[i] + 0.5 * dtheta[i])
-            z21 = (r[i] + dr[i]) * np.cos(theta[i] + 0.5 * dtheta[i])
-        
+            if ((j == 1) | (j == 3)):
+                x11 = rL * np.sin(tL)
+                z11 = rL * np.cos(tL)
+                x12 = rH * np.sin(tL)
+                z12 = rH * np.cos(tL)
+                x21 = rH * np.sin(tH)
+                z21 = rH * np.cos(tH)
+                x22 = rL * np.sin(tH)
+                z22 = rL * np.cos(tH)
+            else:
+                x11 = -rL * np.sin(tL)
+                z11 = rL * np.cos(tL)
+                x12 = -rH * np.sin(tL)
+                z12 = rH * np.cos(tL)
+                x21 = -rH * np.sin(tH)
+                z21 = rH * np.cos(tH)
+                x22 = -rL * np.sin(tH)
+                z22 = rL * np.cos(tH)
+    
             xy = list(zip([x11, x12, x21, x22], [z11, z12, z21, z22]))
-            xy = list(zip([z11, z12, z21, z22], [x11, x12, x21, x22]))
-        
+
             ax.add_patch(mpl.patches.Polygon \
                            (xy = xy, fill = False, alpha = MeshAlpha))
     
-ax.axvline(0.0, lw = 2,c = 'k')
+ax.axhline(0.0, lw = 2, c = 'k')
+ax.axvline(0.0, lw = 2, c = 'k')
 plt.gca().set_aspect('equal')
 
 # Colorbar code from
