@@ -93,7 +93,7 @@ for j in range(len(SS)):
     dr     = ad['dX1' ].to_ndarray()
     dtheta = ad['dX2' ].to_ndarray()
     d = ad[field].to_ndarray()
-    print(d.shape)
+    print('time, Number of leaf elements: ', time, d.shape[0])
     
     if (j == 0):
         ax.text(0.02, 0.94, r'$t = {:.0f}\ \mathrm{{ms}}$'.format(time), \
