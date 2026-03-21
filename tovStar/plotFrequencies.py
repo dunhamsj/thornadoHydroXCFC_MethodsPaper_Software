@@ -9,6 +9,15 @@ import globalVariables as gv
 fig, axs = plt.subplots(2, 1)
 prop = {'size': 8}
 
+# Frequencies from Font et al., (2002), PRD, 65, 8
+F  = 2.701e3
+H1 = 4.563e3
+H2 = 6.352e3
+H3 = 8.129e3
+H4 = 9.875e3
+H5 = 11.657e3
+H6 = 13.421e3
+
 ax = axs[0]
 dirSuffix = ['_11_11'                    , '_nX0032'                     , '_nX0128'                   ]
 ID        = ['StaticTOV_multiLevel'      , 'StaticTOV_singleLevel'       , 'StaticTOV_singleLevel'     ]
