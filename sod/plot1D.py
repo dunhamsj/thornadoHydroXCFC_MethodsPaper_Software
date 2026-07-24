@@ -35,7 +35,7 @@ figName = gv.paperDirectory + 'Figures/fig.sod.pdf'
 
 # Specify directory containing amrex plotfiles
 plotfileDirectoryRoot = gv.dataDirectory
-plotfileDirectory = plotfileDirectoryRoot + 'Sod/'
+plotfileDirectory = plotfileDirectoryRoot + 'sod/'
 
 fig, axs = plt.subplots( 3, 1 )
 
