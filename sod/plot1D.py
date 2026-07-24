@@ -12,7 +12,7 @@ from myUtilitiesModule import getPlotfileNumberArray, getMesh_1d, getFieldData
 
 problemNameRoot = 'RiemannProblem1D_Sod'
 suffix = [ '_nX0256', '_nX0016_AMR_FCT']#, '_nX0016_AMR_FCF' ]
-leglabel = [ r'$N_{K} = 256$', 'AMR (On)]#', 'AMR (Off)' ]
+leglabel = [ r'$N_{K} = 256$', 'AMR']#, 'AMR (Off)' ]
 
 xlabel = r'$x$'
 
@@ -30,6 +30,7 @@ xlim = np.array( [ -0.02, 1.02 ] )
 saveFig = True
 
 figName = gv.paperDirectory + 'Figures/fig.sod.pdf'
+#figName = gv.homeDirectory + 'fig.sod.pdf'
 
 #### ====== End of User Input =======
 
@@ -122,7 +123,7 @@ ax.set_xlabel( 'time', fontsize = 15 )
 ax.set_ylabel( r'$\left|M\left(t\right) - M\left(0\right)\right| / M\left(0\right)$' )
 
 figName = gv.paperDirectory + 'Figures/fig.sod_conservation.pdf'
-figName = 'fig.sod_conservation.pdf'
+#figName = gv.homeDirectory + 'fig.sod_conservation.pdf'
 if ( saveFig ) :
 
     plt.savefig( figName, dpi = 300 )

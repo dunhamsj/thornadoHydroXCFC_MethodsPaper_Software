@@ -34,7 +34,7 @@ xlim = np.array( [ -5.1, 5.1 ] )
 saveFig = True
 
 figName = gv.paperDirectory + 'Figures/fig.sod_table.pdf'
-#figName = 'fig.sod_table.pdf'
+#figName = gv.homeDirectory + 'fig.sod_table.pdf'
 
 #### ====== End of User Input =======
 
@@ -129,7 +129,7 @@ plt.close()
 #ax.set_ylabel( r'$\left|M\left(t\right) - M\left(0\right)\right| / M\left(0\right)$' )
 #
 #figName = gv.paperDirectory + 'Figures/fig.sod_conservation.pdf'
-#figName = 'fig.sod_conservation.pdf'
+#figName = gv.homeDirectory + 'fig.sod_conservation.pdf'
 #if ( saveFig ) :
 #
 #    plt.savefig( figName, dpi = 300 )
