@@ -66,7 +66,7 @@ class Draw:
         ax.plot([xF_L, xF_L + dx], [yF_L + 0.5 * dy, yF_L + 0.5 * dy], 'k')
         ax.plot([xF_L + 0.5 * dx, xF_L + 0.5 * dx], [yF_L, yF_L + dy], 'k')
 
-        ax.text(xC - 0.07 * dx, yC, r'$U_{h}$')
+        ax.text(xC - 0.1 * dx, yC - 0.025 * dy, r'$U_{h}$', fontsize = 24)
 
         # Points in fine element (1,1)
 
@@ -78,10 +78,10 @@ class Draw:
         yL = [ yF_L     , yF_L         , yF_L + dy    , yF_L + dy]
         yH = [ yF_L + dy, yF_L + dy    , yF_L + 2 * dy, yF_L + 2 * dy]
 
-        text = [r'$u_{h}^{(1)}$', \
-                r'$u_{h}^{(2)}$', \
-                r'$u_{h}^{(3)}$', \
-                r'$u_{h}^{(4)}$']
+        text = [r'$u_{h}^{(1,1)}$', \
+                r'$u_{h}^{(1,2)}$', \
+                r'$u_{h}^{(2,1)}$', \
+                r'$u_{h}^{(2,2)}$']
         for k in range(len(xL)):
 
             xC = xL[k] + 0.5 * dx
@@ -104,12 +104,12 @@ class Draw:
         kw = dict(arrowstyle=style, color = 'k')
 
         a1 = patches.FancyArrowPatch((XC_C, YH), (XC_F, YH), \
-                                     connectionstyle="arc3, rad=-0.5", **kw)
+                                     connectionstyle="arc3, rad=-0.4", **kw)
         plt.gca().add_patch(a1)
         ax.text( 0.4 * (XC_C + XC_F), YH * (1+0.3), 'Coarse-to-Fine')
 
         a2 = patches.FancyArrowPatch((XC_F, YL), (XC_C, YL), \
-                                     connectionstyle="arc3, rad=-0.5", **kw)
+                                     connectionstyle="arc3, rad=-0.4", **kw)
         plt.gca().add_patch(a2)
         ax.text( 0.4 * (XC_C + XC_F), YL * (1-1.1), 'Fine-to-Coarse')
 
