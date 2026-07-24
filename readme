@@ -1,0 +1,3 @@
+line 1196 of myvenv/lib/python3.14/site-packages/yt/data_objects/static_output.py:
+change from `... = self.point(coord)[field]` to `... = self.point(coord)[field][0]`
+
