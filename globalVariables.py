@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+global homeDirectory
+homeDirectory \
+  = '/home/dunhamsj/'
+
 global paperDirectory
 paperDirectory \
   = '/mnt/shared/work/thornadoHydroXCFC_MethodsPaper/'
